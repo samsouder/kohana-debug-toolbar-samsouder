@@ -105,12 +105,12 @@
 	<div id="vars" class="top" style="display: none;">
 		<h1>vars &amp; config</h1>
 		<ul class="varmenu">
-			<li><a href="#" onclick="debugToolbar.showvar('vars-post')">POST</a></li>
-			<li><a href="#" onclick="debugToolbar.showvar('vars-get')">GET</a></li>
-			<li><a href="#" onclick="debugToolbar.showvar('vars-server')">SERVER</a></li>
-			<li><a href="#" onclick="debugToolbar.showvar('vars-cookie')">COOKIE</a></li>
-			<li><a href="#" onclick="debugToolbar.showvar('vars-session')">SESSION</a></li>
-			<li><a href="#" onclick="debugToolbar.showvar('vars-config')">CONFIG</a></li>
+			<li><a href="javascript: void(0)" onclick="debugToolbar.showvar('vars-post')">POST</a></li>
+			<li><a href="javascript: void(0)" onclick="debugToolbar.showvar('vars-get')">GET</a></li>
+			<li><a href="javascript: void(0)" onclick="debugToolbar.showvar('vars-server')">SERVER</a></li>
+			<li><a href="javascript: void(0)" onclick="debugToolbar.showvar('vars-cookie')">COOKIE</a></li>
+			<li><a href="javascript: void(0)" onclick="debugToolbar.showvar('vars-session')">SESSION</a></li>
+			<li><a href="javascript: void(0)" onclick="debugToolbar.showvar('vars-config')">CONFIG</a></li>
 		</ul>
 		<div style="display: none;" id="vars-post"><?php echo Kohana::debug($_POST) ?></div>
 		<div style="display: none;" id="vars-get"><?php echo Kohana::debug($_GET) ?></div>
@@ -121,7 +121,7 @@
 			<ul>
 			<?php foreach ($config as $section => $vars): ?>
 				<li class="<?php echo text::alternate('odd', 'even') ?>" onclick="debugToolbar.toggle('vars-config-<?php echo $section ?>'); return false;">
-					<a href="#"><?php echo $section ?></a>
+					<a href="javascript: void(0)"><?php echo $section ?></a>
 					<div style="display: none;" id="vars-config-<?php echo $section ?>">
 						<?php echo Kohana::debug($vars) ?>
 					</div>
