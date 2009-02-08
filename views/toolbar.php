@@ -15,37 +15,37 @@
 				</a>
 			</li>
 			<li>
-				<a id="time" href="#" onclick="debugToolbar.show('benchmarks')">
+				<a id="time" href="javascript: void(0)" onclick="debugToolbar.show('benchmarks')">
 					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'time.png' ?>" />
 					<?php echo round(($benchmarks['system_benchmark_total_execution']['time'])*1000, 2)?> ms
 				</a>
 			</li>
 			<li>
-				<a id="memory" href="#" onclick="debugToolbar.show('benchmarks')">
+				<a id="memory" href="javascript: void(0)" onclick="debugToolbar.show('benchmarks')">
 					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'memory.png' ?>" />
 					<?php echo round(($benchmarks['system_benchmark_total_execution']['memory'])/(1024*1024), 2)?> MB
 				</a>
 			</li>
 			<li>
-				<a id="toggle-database" href="#" onclick="debugToolbar.show('database')">
+				<a id="toggle-database" href="javascript: void(0)" onclick="debugToolbar.show('database')">
 					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'database.png' ?>" />
 					<?php echo count($queries)?>
 				</a>
 			</li>
 			<li>
-				<a id="toggle-vars" href="#" onclick="debugToolbar.show('vars')">
+				<a id="toggle-vars" href="javascript: void(0)" onclick="debugToolbar.show('vars')">
 					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'config.png' ?>" />
 					vars &amp; config
 				</a>
 			</li>
 			<li>
-				<a id="toggle-log" href="#" onclick="debugToolbar.show('log')">
+				<a id="toggle-log" href="javascript: void(0)" onclick="debugToolbar.show('log')">
 					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'logs.png' ?>" />
 					logs &amp; msgs
 				</a>
 			</li>
 			<li class="last">
-				<a href="#" onclick="debugToolbar.close()">
+				<a href="javascript: void(0)" onclick="debugToolbar.close()">
 					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'close.png' ?>" />
 				</a>
 			</li>

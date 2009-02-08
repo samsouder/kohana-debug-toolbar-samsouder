@@ -12,6 +12,7 @@ var debugToolbar = {
 			debugToolbar.on(obj);
 			debugToolbar.current = obj;
 		}
+		return false;
 	},
 	
 	showvar : function(obj) {
@@ -23,30 +24,28 @@ var debugToolbar = {
 			debugToolbar.on(obj);
 			debugToolbar.currentvar = obj;
 		}
+		return false;
 	},
 	
 	on : function(obj) {
-		if (document.getElementById(obj) == null)
-			return;
-		else
+		if (document.getElementById(obj) != null)
 			document.getElementById(obj).style.display = '';
+		return false;
 	},
 	
 	off : function(obj) {
-		if (document.getElementById(obj) == null)
-			return;
-		else
+		if (document.getElementById(obj) != null)
 			document.getElementById(obj).style.display = 'none';
+		return false;
 	},
 	
 	toggle : function(obj) {
-		if (document.getElementById(obj) == null)
-			return;
-		else
+		if (document.getElementById(obj) != null)
 			if (document.getElementById(obj).style.display == '')
 				debugToolbar.off(obj);
 			else if (document.getElementById(obj).style.display == 'none')
 				debugToolbar.on(obj);
+		return false;
 	},
 	close : function() {
 		document.getElementById('debug-toolbar').style.display = 'none';
