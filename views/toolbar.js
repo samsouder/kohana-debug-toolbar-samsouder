@@ -1,27 +1,27 @@
-var devToolbar = {
+var debugToolbar = {
 
 	current: null,
 	currentvar: null,
 	
 	show : function(obj) {
-		if (obj == devToolbar.current) {
-			devToolbar.off(obj);
-			devToolbar.current = null;
+		if (obj == debugToolbar.current) {
+			debugToolbar.off(obj);
+			debugToolbar.current = null;
 		} else {
-			devToolbar.off(devToolbar.current);
-			devToolbar.on(obj);
-			devToolbar.current = obj;
+			debugToolbar.off(debugToolbar.current);
+			debugToolbar.on(obj);
+			debugToolbar.current = obj;
 		}
 	},
 	
 	showvar : function(obj) {
-		if (obj == devToolbar.currentvar) {
-			devToolbar.off(obj);
-			devToolbar.currentvar = '';
+		if (obj == debugToolbar.currentvar) {
+			debugToolbar.off(obj);
+			debugToolbar.currentvar = '';
 		} else {
-			devToolbar.off(devToolbar.currentvar);
-			devToolbar.on(obj);
-			devToolbar.currentvar = obj;
+			debugToolbar.off(debugToolbar.currentvar);
+			debugToolbar.on(obj);
+			debugToolbar.currentvar = obj;
 		}
 	},
 	
@@ -44,11 +44,11 @@ var devToolbar = {
 			return;
 		else
 			if (document.getElementById(obj).style.display == '')
-				devToolbar.off(obj);
+				debugToolbar.off(obj);
 			else if (document.getElementById(obj).style.display == 'none')
-				devToolbar.on(obj);
+				debugToolbar.on(obj);
 	},
 	close : function() {
-		document.getElementById('dev-toolbar').style.display = 'none';
+		document.getElementById('debug-toolbar').style.display = 'none';
 	}
 };

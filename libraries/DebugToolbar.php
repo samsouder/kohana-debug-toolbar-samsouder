@@ -1,23 +1,23 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class DevToolbar_Core {
+class DebugToolbar_Core {
 
 	// system.log events
 	public static $logs = array();
 	
-	// show the dev toolbar
+	// show the toolbar
 	public static function show() 
 	{
 		// load dev toolbar view
-		$template = new View('kohana_developer_toolbar');
+		$template = new View('toolbar');
 		
 		// set view data
 		$template->set('queries', Database::$benchmarks);
 		$template->set('benchmarks', Benchmark::get(true));
 		$template->set('logs', self::$logs);
 		$template->set('config', self::load_config());
-		$template->set('styles', file_get_contents(Kohana::find_file('views', 'kohana_developer_toolbar', FALSE, 'css')));
-		$template->set('scripts', file_get_contents(Kohana::find_file('views', 'kohana_developer_toolbar', FALSE, 'js')));
+		$template->set('styles', file_get_contents(Kohana::find_file('views', 'toolbar', false, 'css')));
+		$template->set('scripts', file_get_contents(Kohana::find_file('views', 'toolbar', true, 'js')));
 		
 		// render
 		$template->render(true);
@@ -95,19 +95,9 @@ class DevToolbar_Core {
 	private static function strip_ext($filename)
 	{
 		if (($pos = strrpos($filename, '.')) !== false)
-		{
 			return substr($filename, 0, $pos);
-		} 
 		else 
-		{
 			return $filename;
-		} 
-	}
-	
-	public static function nested_list($array) 
-	{
-		$out = '<ul>';
-		
 	}
 
 }

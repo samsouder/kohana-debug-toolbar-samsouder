@@ -6,47 +6,47 @@
 <?php echo $scripts ?>
 </script>
 
-<div id="dev-toolbar">
+<div id="debug-toolbar">
 	<div id="toolbar">
 		<ul class="menu">
 			<li>
 				<a href="http://kohanaphp.com/home" target="_blank">
-					<img src="<?php echo Kohana::config('dev_toolbar.icon_path') . 'kohana.png' ?>" />
+					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'kohana.png' ?>" />
 				</a>
 			</li>
 			<li>
-				<a id="time" href="#" onclick="devToolbar.show('benchmarks')">
-					<img src="<?php echo Kohana::config('dev_toolbar.icon_path') . 'time.png' ?>" />
+				<a id="time" href="#" onclick="debugToolbar.show('benchmarks')">
+					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'time.png' ?>" />
 					<?php echo round(($benchmarks['system_benchmark_total_execution']['time'])*1000, 2)?> ms
 				</a>
 			</li>
 			<li>
-				<a id="memory" href="#" onclick="devToolbar.show('benchmarks')">
-					<img src="<?php echo Kohana::config('dev_toolbar.icon_path') . 'memory.png' ?>" />
+				<a id="memory" href="#" onclick="debugToolbar.show('benchmarks')">
+					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'memory.png' ?>" />
 					<?php echo round(($benchmarks['system_benchmark_total_execution']['memory'])/(1024*1024), 2)?> MB
 				</a>
 			</li>
 			<li>
-				<a id="toggle-database" href="#" onclick="devToolbar.show('database')">
-					<img src="<?php echo Kohana::config('dev_toolbar.icon_path') . 'database.png' ?>" />
+				<a id="toggle-database" href="#" onclick="debugToolbar.show('database')">
+					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'database.png' ?>" />
 					<?php echo count($queries)?>
 				</a>
 			</li>
 			<li>
-				<a id="toggle-vars" href="#" onclick="devToolbar.show('vars')">
-					<img src="<?php echo Kohana::config('dev_toolbar.icon_path') . 'config.png' ?>" />
+				<a id="toggle-vars" href="#" onclick="debugToolbar.show('vars')">
+					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'config.png' ?>" />
 					vars &amp; config
 				</a>
 			</li>
 			<li>
-				<a id="toggle-log" href="#" onclick="devToolbar.show('log')">
-					<img src="<?php echo Kohana::config('dev_toolbar.icon_path') . 'logs.png' ?>" />
+				<a id="toggle-log" href="#" onclick="debugToolbar.show('log')">
+					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'logs.png' ?>" />
 					logs &amp; msgs
 				</a>
 			</li>
 			<li class="last">
-				<a href="#" onclick="devToolbar.close()">
-					<img src="<?php echo Kohana::config('dev_toolbar.icon_path') . 'close.png' ?>" />
+				<a href="#" onclick="debugToolbar.close()">
+					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'close.png' ?>" />
 				</a>
 			</li>
 		</ul>
@@ -105,12 +105,12 @@
 	<div id="vars" class="top" style="display: none;">
 		<h1>vars &amp; config</h1>
 		<ul class="varmenu">
-			<li><a href="#" onclick="devToolbar.showvar('vars-post')">POST</a></li>
-			<li><a href="#" onclick="devToolbar.showvar('vars-get')">GET</a></li>
-			<li><a href="#" onclick="devToolbar.showvar('vars-server')">SERVER</a></li>
-			<li><a href="#" onclick="devToolbar.showvar('vars-cookie')">COOKIE</a></li>
-			<li><a href="#" onclick="devToolbar.showvar('vars-session')">SESSION</a></li>
-			<li><a href="#" onclick="devToolbar.showvar('vars-config')">CONFIG</a></li>
+			<li><a href="#" onclick="debugToolbar.showvar('vars-post')">POST</a></li>
+			<li><a href="#" onclick="debugToolbar.showvar('vars-get')">GET</a></li>
+			<li><a href="#" onclick="debugToolbar.showvar('vars-server')">SERVER</a></li>
+			<li><a href="#" onclick="debugToolbar.showvar('vars-cookie')">COOKIE</a></li>
+			<li><a href="#" onclick="debugToolbar.showvar('vars-session')">SESSION</a></li>
+			<li><a href="#" onclick="debugToolbar.showvar('vars-config')">CONFIG</a></li>
 		</ul>
 		<div style="display: none;" id="vars-post"><?php echo Kohana::debug($_POST) ?></div>
 		<div style="display: none;" id="vars-get"><?php echo Kohana::debug($_GET) ?></div>
@@ -120,7 +120,7 @@
 		<div style="display: none;" id="vars-config">
 			<ul>
 			<?php foreach ($config as $section => $vars): ?>
-				<li class="<?php echo text::alternate('odd', 'even') ?>" onclick="devToolbar.toggle('vars-config-<?php echo $section ?>'); return false;">
+				<li class="<?php echo text::alternate('odd', 'even') ?>" onclick="debugToolbar.toggle('vars-config-<?php echo $section ?>'); return false;">
 					<a href="#"><?php echo $section ?></a>
 					<div style="display: none;" id="vars-config-<?php echo $section ?>">
 						<?php echo Kohana::debug($vars) ?>
