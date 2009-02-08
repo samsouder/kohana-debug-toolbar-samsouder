@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Hook system.log event so logs can 
  * be displayed in the debug toolbar
