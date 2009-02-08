@@ -34,6 +34,7 @@ div#debug-toolbar .top {
 	z-index: 9999;
 	border-bottom: 1px solid #aaa;
 	background-color: #222;
+	padding-top: 5px;
 }
 div#debug-toolbar table {
 	width: 100%;
@@ -86,6 +87,7 @@ div#debug-toolbar div#toolbar[id] {
 div#debug-toolbar div#toolbar ul.menu {
 	padding: 5px 5px 5px 0;
 	display: inline;
+	margin: 0;
 }
 div#debug-toolbar div#toolbar ul.menu li {
 	display: inline;
@@ -128,6 +130,7 @@ div#debug-toolbar div#vars div {
 	clear: both;
 }
 div#debug-toolbar div#vars ul {
+	margin: 0;
 	padding: 0;
 }
 div#debug-toolbar div#vars li {
@@ -135,6 +138,7 @@ div#debug-toolbar div#vars li {
 	display: block;
 	padding: 5px 0 5px 10px;
 	color: #222;
+	margin: 0;
 }
 div#debug-toolbar div#vars pre {
 	color: #eee;
