@@ -1,0 +1,154 @@
+div#dev-toolbar {
+	padding: 0;
+	margin: 0;
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+	color: #333;
+	text-align: left;
+	line-height: 12px;
+}
+div#dev-toolbar h1 {
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	padding: 0;
+	border: 0px;
+	color: #eee;
+}
+div#dev-toolbar img {
+	border: 0;
+}
+div#dev-toolbar a, 
+div#dev-toolbar a:hover {
+  text-decoration: none;
+  border: none;
+  background-color: transparent;
+  color: #000;
+}
+div#dev-toolbar .top {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	z-index: 9999;
+	border-bottom: 1px solid #aaa;
+	background-color: #222;
+}
+div#dev-toolbar table {
+	width: 100%;
+}
+div#dev-toolbar tr {
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+div#dev-toolbar td {
+	margin: 0;
+	border: 0;
+	padding: 5px;
+	vertical-align: top;
+}
+div#dev-toolbar th {
+	margin: 0;
+	border: 0;
+	padding: 3px 5px;
+	vertical-align: top;
+	background-color: #999;
+	color: #eee;
+	white-space: nowrap;
+}
+div#dev-toolbar .odd {
+	background-color: #eee;
+}
+div#dev-toolbar .even {
+	background-color: #ddd;
+}
+
+div#dev-toolbar div#toolbar {
+	position: absolute;
+	margin: 0;
+	padding: 3px 0;
+	right: 0px;
+	top: 0px;
+	opacity: 0.80;
+	filter: alpha(opacity:80);
+	z-index: 10000;
+	white-space: nowrap;
+	background-color: #ccc;
+}
+div#dev-toolbar div#toolbar img {
+	vertical-align: middle;
+}
+div#dev-toolbar div#toolbar[id] {
+	position: fixed;
+}
+div#dev-toolbar div#toolbar ul.menu {
+	padding: 5px 5px 5px 0;
+	display: inline;
+}
+div#dev-toolbar div#toolbar ul.menu li {
+	display: inline;
+	list-style: none;
+	margin: 0;
+	padding: 0 5px;
+	border-right: 1px solid #aaa;
+}
+div#dev-toolbar div#toolbar ul.menu li a {
+	padding: 0;
+}
+div#dev-toolbar div#toolbar ul.menu li.last {
+	margin: 0;
+	padding: 0 0 0 5px;
+	border: 0;
+}
+
+/* Benchmarks */
+div#dev-toolbar div#benchmarks {
+	position: absolute;
+}
+
+/* SQL queries */
+div#dev-toolbar div#database {
+
+}
+
+/* Vars & Config */
+div#dev-toolbar div#vars .varmenu {
+	margin-bottom: 10px;
+}
+div#dev-toolbar div#vars .varmenu li {
+	float: left;
+	padding: 5px 5px;
+}
+div#dev-toolbar div#vars .varmenu li a {
+	color: #eee;
+}
+div#dev-toolbar div#vars div {
+	clear: both;
+}
+div#dev-toolbar div#vars ul {
+	padding: 0;
+}
+div#dev-toolbar div#vars li {
+	float: none;
+	display: block;
+	padding: 5px 0 5px 10px;
+	color: #222;
+}
+div#dev-toolbar div#vars pre {
+	color: #eee;
+}
+div#dev-toolbar div#vars-config li:hover {
+	background-color: #444;
+	color: #eee;
+}
+div#dev-toolbar div#vars-config li:hover a {
+	color: #eee;
+}
+
+/* Logs & Msgs */
+div#dev-toolbar  div#log {
+	padding: 0;
+	margin: 0;
+}
