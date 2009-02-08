@@ -2,7 +2,7 @@
 
 /*
  * Hook system.log event so logs can 
- * be displayed in the dev toolbar
+ * be displayed in the debug toolbar
  */
 Event::add('system.log', 'debugToolbarLog');
 function debugToolbarLog() {

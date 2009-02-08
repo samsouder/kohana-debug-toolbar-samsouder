@@ -136,14 +136,15 @@ div#debug-toolbar div#vars li {
 	padding: 5px 0 5px 10px;
 	color: #222;
 }
-div#debug-toolbar div#vars pre {
-	color: #eee;
+div#debug-toolbar div#vars-config li pre {
+	color: #222;
 }
 div#debug-toolbar div#vars-config li:hover {
 	background-color: #444;
 	color: #eee;
 }
-div#debug-toolbar div#vars-config li:hover a {
+div#debug-toolbar div#vars-config li:hover a,
+div#debug-toolbar div#vars-config li:hover pre {
 	color: #eee;
 }
 
