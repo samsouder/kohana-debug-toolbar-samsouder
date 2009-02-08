@@ -15,37 +15,37 @@
 				</a>
 			</li>
 			<li>
-				<a id="time" href="javascript: void(0)" onclick="debugToolbar.show('benchmarks')">
+				<a id="time" href="#" onclick="debugToolbar.show('benchmarks'); return false;">
 					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'time.png' ?>" />
 					<?php echo round(($benchmarks['system_benchmark_total_execution']['time'])*1000, 2)?> ms
 				</a>
 			</li>
 			<li>
-				<a id="memory" href="javascript: void(0)" onclick="debugToolbar.show('benchmarks')">
+				<a id="memory" href="#" onclick="debugToolbar.show('benchmarks'); return false;">
 					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'memory.png' ?>" />
 					<?php echo round(($benchmarks['system_benchmark_total_execution']['memory'])/(1024*1024), 2)?> MB
 				</a>
 			</li>
 			<li>
-				<a id="toggle-database" href="javascript: void(0)" onclick="debugToolbar.show('database')">
+				<a id="toggle-database" href="#" onclick="debugToolbar.show('database'); return false;">
 					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'database.png' ?>" />
 					<?php echo count($queries)?>
 				</a>
 			</li>
 			<li>
-				<a id="toggle-vars" href="javascript: void(0)" onclick="debugToolbar.show('vars')">
+				<a id="toggle-vars" href="#" onclick="debugToolbar.show('vars'); return false;">
 					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'config.png' ?>" />
 					vars &amp; config
 				</a>
 			</li>
 			<li>
-				<a id="toggle-log" href="javascript: void(0)" onclick="debugToolbar.show('log')">
+				<a id="toggle-log" href="#" onclick="debugToolbar.show('log'); return false;">
 					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'logs.png' ?>" />
 					logs &amp; msgs
 				</a>
 			</li>
 			<li class="last">
-				<a href="javascript: void(0)" onclick="debugToolbar.close()">
+				<a href="#" onclick="debugToolbar.close(); return false;">
 					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'close.png' ?>" />
 				</a>
 			</li>
@@ -105,12 +105,12 @@
 	<div id="vars" class="top" style="display: none;">
 		<h1>vars &amp; config</h1>
 		<ul class="varmenu">
-			<li><a href="javascript: void(0)" onclick="debugToolbar.showvar('vars-post')">POST</a></li>
-			<li><a href="javascript: void(0)" onclick="debugToolbar.showvar('vars-get')">GET</a></li>
-			<li><a href="javascript: void(0)" onclick="debugToolbar.showvar('vars-server')">SERVER</a></li>
-			<li><a href="javascript: void(0)" onclick="debugToolbar.showvar('vars-cookie')">COOKIE</a></li>
-			<li><a href="javascript: void(0)" onclick="debugToolbar.showvar('vars-session')">SESSION</a></li>
-			<li><a href="javascript: void(0)" onclick="debugToolbar.showvar('vars-config')">CONFIG</a></li>
+			<li><a href="#" onclick="debugToolbar.showvar('vars-post'); return false;">POST</a></li>
+			<li><a href="#" onclick="debugToolbar.showvar('vars-get'); return false;">GET</a></li>
+			<li><a href="#" onclick="debugToolbar.showvar('vars-server'); return false;">SERVER</a></li>
+			<li><a href="#" onclick="debugToolbar.showvar('vars-cookie'); return false;">COOKIE</a></li>
+			<li><a href="#" onclick="debugToolbar.showvar('vars-session'); return false;">SESSION</a></li>
+			<li><a href="#" onclick="debugToolbar.showvar('vars-config'); return false;">CONFIG</a></li>
 		</ul>
 		<div style="display: none;" id="vars-post"><?php echo Kohana::debug($_POST) ?></div>
 		<div style="display: none;" id="vars-get"><?php echo Kohana::debug($_GET) ?></div>
