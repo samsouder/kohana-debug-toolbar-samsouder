@@ -1,6 +1,7 @@
 /* Reset */
 div#debug-toolbar,
 div#debug-toolbar div,
+div#debug-toolbar span,
 div#debug-toolbar h1,
 div#debug-toolbar img,
 div#debug-toolbar a,
@@ -8,7 +9,8 @@ div#debug-toolbar ul,
 div#debug-toolbar li,
 div#debug-toolbar tr,
 div#debug-toolbar td,
-div#debug-toolbar th {
+div#debug-toolbar th,
+div#debug-toolbar table {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -16,11 +18,14 @@ div#debug-toolbar th {
 	font-size: 100%;
 	vertical-align: middle;
 	background: transparent;
+	line-height: 1;
 }
 div#debug-toolbar table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+div#debug-toolbar :focus { outline: 0; }
+
 
 /* Global */
 div#debug-toolbar {
@@ -67,6 +72,8 @@ div#debug-toolbar th {
 }
 div#debug-toolbar tr.odd td { background-color: #eee; }
 div#debug-toolbar tr.even td { background-color: #ddd; }
+div#debug-toolbar li.odd { background-color: #eee; }
+div#debug-toolbar li.even { background-color: #ddd; }
 
 /* Toolbar */
 div#debug-toolbar div#toolbar {
