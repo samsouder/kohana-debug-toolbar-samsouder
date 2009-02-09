@@ -19,6 +19,7 @@ div#debug-toolbar th {
 	vertical-align: middle;
 	background: transparent;
 	line-height: 1;
+	text-transform: none;
 }
 div#debug-toolbar table {
 	border-collapse: collapse;
