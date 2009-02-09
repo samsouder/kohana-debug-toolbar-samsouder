@@ -14,40 +14,28 @@
 					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'kohana.png' ?>" />
 				</a>
 			</li>
-			<li>
-				<a id="time" href="#" onclick="debugToolbar.show('benchmarks'); return false;">
-					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'time.png' ?>" />
-					<?php echo round(($benchmarks['system_benchmark_total_execution']['time'])*1000, 2)?> ms
-				</a>
+			<li id="time" onclick="debugToolbar.show('benchmarks'); return false;">
+				<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'time.png' ?>" />
+				<?php echo round(($benchmarks['system_benchmark_total_execution']['time'])*1000, 2)?> ms
 			</li>
-			<li>
-				<a id="memory" href="#" onclick="debugToolbar.show('benchmarks'); return false;">
-					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'memory.png' ?>" />
-					<?php echo round(($benchmarks['system_benchmark_total_execution']['memory'])/(1024*1024), 2)?> MB
-				</a>
+			<li id="memory" onclick="debugToolbar.show('benchmarks'); return false;">
+				<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'memory.png' ?>" />
+				<?php echo round(($benchmarks['system_benchmark_total_execution']['memory'])/(1024*1024), 2)?> MB
 			</li>
-			<li>
-				<a id="toggle-database" href="#" onclick="debugToolbar.show('database'); return false;">
-					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'database.png' ?>" />
-					<?php echo count($queries)?>
-				</a>
+			<li id="toggle-database" onclick="debugToolbar.show('database'); return false;">
+				<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'database.png' ?>" />
+				<?php echo count($queries)?>
 			</li>
-			<li>
-				<a id="toggle-vars" href="#" onclick="debugToolbar.show('vars'); return false;">
-					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'config.png' ?>" />
-					vars &amp; config
-				</a>
+			<li id="toggle-vars" onclick="debugToolbar.show('vars'); return false;">
+				<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'config.png' ?>" />
+				vars &amp; config
 			</li>
-			<li>
-				<a id="toggle-log" href="#" onclick="debugToolbar.show('log'); return false;">
-					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'logs.png' ?>" />
-					logs &amp; msgs
-				</a>
+			<li id="toggle-log" onclick="debugToolbar.show('log'); return false;">
+				<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'logs.png' ?>" />
+				logs &amp; msgs
 			</li>
-			<li class="last">
-				<a href="#" onclick="debugToolbar.close(); return false;">
-					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'close.png' ?>" />
-				</a>
+			<li class="last" onclick="debugToolbar.close(); return false;">
+				<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . 'close.png' ?>" />
 			</li>
 		</ul>
 	</div>
@@ -121,7 +109,7 @@
 			<ul>
 			<?php foreach ($config as $section => $vars): ?>
 				<li class="<?php echo text::alternate('odd', 'even') ?>" onclick="debugToolbar.toggle('vars-config-<?php echo $section ?>'); return false;">
-					<a href="javascript: void(0)"><?php echo $section ?></a>
+					<div><?php echo $section ?></div>
 					<div style="display: none;" id="vars-config-<?php echo $section ?>">
 						<?php echo Kohana::debug($vars) ?>
 					</div>

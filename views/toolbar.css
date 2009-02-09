@@ -7,10 +7,10 @@ div#debug-toolbar img,
 div#debug-toolbar a,
 div#debug-toolbar ul, 
 div#debug-toolbar li,
+div#debug-toolbar table,
 div#debug-toolbar tr,
 div#debug-toolbar td,
-div#debug-toolbar th,
-div#debug-toolbar table {
+div#debug-toolbar th {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -26,7 +26,6 @@ div#debug-toolbar table {
 }
 div#debug-toolbar :focus { outline: 0; }
 
-
 /* Global */
 div#debug-toolbar {
 	font-family: Arial, sans-serif;
@@ -40,6 +39,7 @@ div#debug-toolbar h1 {
 	font-weight: bold;
 	margin: 0 0 10px 10px;
 	color: #eee;
+	display: block;
 }
 div#debug-toolbar a, 
 div#debug-toolbar a:hover {
@@ -74,6 +74,7 @@ div#debug-toolbar tr.odd td { background-color: #eee; }
 div#debug-toolbar tr.even td { background-color: #ddd; }
 div#debug-toolbar li.odd { background-color: #eee; }
 div#debug-toolbar li.even { background-color: #ddd; }
+div#debug-toolbar pre { line-height: 1.3 }
 
 /* Toolbar */
 div#debug-toolbar div#toolbar {
@@ -100,6 +101,8 @@ div#debug-toolbar div#toolbar ul.menu li {
 	list-style: none;
 	padding: 0 5px;
 	border-right: 1px solid #aaa;
+	cursor: pointer;
+	line-height: 16px;
 }
 div#debug-toolbar div#toolbar ul.menu li.last { 
 	padding: 0 5px 0 5px; 
@@ -121,9 +124,11 @@ div#debug-toolbar div#vars .varmenu { margin-bottom: 10px; }
 div#debug-toolbar div#vars .varmenu li {
 	float: left;
 	padding: 5px 5px;
+	display: block;
 }
 div#debug-toolbar div#vars .varmenu li a { color: #eee; }
 div#debug-toolbar div#vars div { clear: both; }
+div#debug-toolbar div#vars ul { display: block; }
 div#debug-toolbar div#vars li {
 	float: none;
 	display: block;
@@ -131,12 +136,13 @@ div#debug-toolbar div#vars li {
 	color: #222;
 }
 div#debug-toolbar div#vars pre { color: #eee; }
+
+/* config */
 div#debug-toolbar div#vars-config li pre { color: #222; }
 div#debug-toolbar div#vars-config li:hover {
 	background-color: #444;
 	color: #eee;
 }
-div#debug-toolbar div#vars-config li:hover a,
 div#debug-toolbar div#vars-config li:hover pre { color: #eee; }
 
 /* Logs & Msgs */
