@@ -38,16 +38,24 @@ class DebugToolbar_Core {
 	 * the Kohana core class.  So, unfortunately, I have
 	 * to go through and load every config file manually. 
 	 * This is pretty inneficient but I can't think of a way
-	 * around it.  Hopefully Kohana will add events for
-	 * config read/write in the future.
+	 * around it.
 	 */
 	private static function load_config() 
 	{	
-		// paths to config dirs
-		$paths = array(
-			APPPATH.'config/',
-			SYSPATH.'config/'
-		);
+		if (Kohana::config('debug_toolbar.skip_configs') === true)
+		{
+			return array();
+		}
+		
+		// paths to application and system config
+		$paths = array(APPPATH.'config/', SYSPATH.'config/');
+		
+		// paths to module config
+		foreach ((array)Kohana::config('core.modules') as $modpath)
+		{
+			if (is_dir("$modpath/config/"))
+				$paths[] = "$modpath/config/";
+		}
 		
 		$configuration = array();
 		
@@ -62,15 +70,16 @@ class DebugToolbar_Core {
 					// remove file extension from file name
 					$filename = self::strip_ext($file);
 					
+					// filter skip configs
+					if (in_array($filename, (array)Kohana::config('debug_toolbar.skip_configs')))
+						continue;
+					
 					// let Kohana find full path to file
 					if ($files = Kohana::find_file('config', $filename))
 					{
 						foreach ($files as $file)
 						{
 							require $file;
-							
-							// if file is a valid config file,
-							// load/merge config array
 							if (isset($config) AND is_array($config))
 							{
 								if (empty($configuration[$filename]))

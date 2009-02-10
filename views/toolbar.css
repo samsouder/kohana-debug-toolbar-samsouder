@@ -36,11 +36,12 @@ div#debug-toolbar {
 	line-height: 12px;
 }
 div#debug-toolbar h1 {
-	font-size: 16px;
-	font-weight: bold;
-	margin: 0 0 10px 10px;
-	color: #eee;
-	display: block;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  padding: 0;
+  border: 0px;
+  background-color: #eee;
 }
 div#debug-toolbar a, 
 div#debug-toolbar a:hover {
@@ -54,41 +55,47 @@ div#debug-toolbar .top {
 	width: 100%;
 	z-index: 9999;
 	border-bottom: 1px solid #aaa;
-	background-color: #222;
-	padding-top: 5px;
+	background-color: #efefef;
+	padding: 10px;
 }
 div#debug-toolbar table {
-	width: 100%;
+  padding: 3px;
+  font-size: 11px;
+	border: 1px solid #999;
+	width: 99%;
 }
 div#debug-toolbar td {
-	padding: 5px;
-	vertical-align: top;
+  padding: 3px 3px;
+  vertical-align: top;
+	background-color: #ddd;
 }
+
 div#debug-toolbar th {
-	padding: 3px 5px;
-	vertical-align: top;
-	background-color: #999;
-	color: #eee;
-	white-space: nowrap;
+  padding: 3px 5px;
+  vertical-align: top;
+  background-color: #999;
+  color: #eee;
+  white-space: nowrap;
 }
-div#debug-toolbar tr.odd td { background-color: #eee; }
-div#debug-toolbar tr.even td { background-color: #ddd; }
-div#debug-toolbar li.odd { background-color: #eee; }
-div#debug-toolbar li.even { background-color: #ddd; }
+div#debug-toolbar td,
+div#debug-toolbar th {
+	border: 1px solid #efefef;
+}
+
 div#debug-toolbar pre { line-height: 1.3 }
 
 /* Toolbar */
 div#debug-toolbar div#toolbar {
 	position: absolute;
-	padding: 0 0 3px 0;
+	padding: 3px 0 3px 0;
 	right: 0px;
 	top: 0px;
 	opacity: 0.80;
 	filter: alpha(opacity:80);
 	z-index: 10000;
 	white-space: nowrap;
-	background-color: #ccc;
 	line-height: 16px;
+	background-color: #ccc;
 }
 div#debug-toolbar div#toolbar img { vertical-align: middle; }
 div#debug-toolbar div#toolbar[id] { position: fixed; }
@@ -111,42 +118,51 @@ div#debug-toolbar div#toolbar ul.menu li.last {
 }
 
 /* Benchmarks */
-div#debug-toolbar div#benchmarks {
-
-}
+div#debug-toolbar div#benchmarks { padding: 3px 5px; }
 
 /* SQL queries */
-div#debug-toolbar div#database {
-
-}
+div#debug-toolbar div#database { padding: 3px 5px; }
 
 /* Vars & Config */
-div#debug-toolbar div#vars .varmenu { margin-bottom: 10px; }
+div#debug-toolbar div#vars { padding: 3px 5px; }
+
+div#debug-toolbar div#vars pre {
+	background-color: #ddd;
+	padding: 10px;
+}
+div#debug-toolbar div#vars .varmenu { 
+  margin: 20px 0 0 0; 
+	height: 23px;
+}
 div#debug-toolbar div#vars .varmenu li {
 	float: left;
-	padding: 5px 5px;
 	display: block;
+	padding: 5px;
+	margin: 0 6px 0 0;
+	border-top: 1px solid #999;
+	border-left: 1px solid #999;
+	border-right: 1px solid #999;
+	cursor:  pointer;
 }
-div#debug-toolbar div#vars .varmenu li a { color: #eee; }
-div#debug-toolbar div#vars div { clear: both; }
-div#debug-toolbar div#vars ul { display: block; }
-div#debug-toolbar div#vars li {
-	float: none;
-	display: block;
-	padding: 5px 0 5px 10px;
-	color: #222;
+div#debug-toolbar div#vars .varmenu li.active {
+	background-color: #ddd;
+	color: #000;
 }
-div#debug-toolbar div#vars pre { color: #eee; }
 
-/* config */
-div#debug-toolbar div#vars-config li pre { color: #222; }
-div#debug-toolbar div#vars-config li:hover {
-	background-color: #444;
-	color: #eee;
+div#debug-toolbar div#vars .configmenu { 
+	background-color: #ddd;
 }
-div#debug-toolbar div#vars-config li:hover pre { color: #eee; }
+div#debug-toolbar div#vars .configmenu li {
+	display: block;
+	list-style: none;
+}
+div#debug-toolbar div#vars .configmenu li.odd { background-color: #eee; }
+div#debug-toolbar div#vars .configmenu li.even { background-color: #fff; }
+
 
 /* Logs & Msgs */
 div#debug-toolbar  div#log {
-
+	padding: 3px 5px;
+	font-size: 11px;
 }
+

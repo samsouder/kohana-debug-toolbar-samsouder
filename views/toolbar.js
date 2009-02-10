@@ -2,6 +2,7 @@ var debugToolbar = {
 
 	current: null,
 	currentvar: null,
+	currentli: null,
 	
 	show : function(obj) {
 		if (obj == debugToolbar.current) {
@@ -14,14 +15,20 @@ var debugToolbar = {
 		}
 	},
 	
-	showvar : function(obj) {
+	showvar : function(li, obj) {
 		if (obj == debugToolbar.currentvar) {
 			debugToolbar.off(obj);
-			debugToolbar.currentvar = '';
+			debugToolbar.currentli = null;
+			debugToolbar.currentli.className = '';
+			debugToolbar.currentvar = null;
 		} else {
 			debugToolbar.off(debugToolbar.currentvar);
+			if (debugToolbar.currentli)
+				debugToolbar.currentli.className = '';
 			debugToolbar.on(obj);
 			debugToolbar.currentvar = obj;
+			debugToolbar.currentli = li;
+			debugToolbar.currentli.className = 'active';
 		}
 	},
 	
