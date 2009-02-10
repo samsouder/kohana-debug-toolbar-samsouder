@@ -2,6 +2,7 @@
 div#debug-toolbar,
 div#debug-toolbar div,
 div#debug-toolbar span,
+div#debug-toolbar pre,
 div#debug-toolbar h1,
 div#debug-toolbar img,
 div#debug-toolbar a,
@@ -20,12 +21,16 @@ div#debug-toolbar th {
 	background: transparent;
 	line-height: 1;
 	text-transform: none;
+	font-size:100%;
 }
 div#debug-toolbar table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
 div#debug-toolbar :focus { outline: 0; }
+div#debug-toolbar ul {
+	list-style:none;
+}
 
 /* Global */
 div#debug-toolbar {
