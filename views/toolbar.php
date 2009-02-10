@@ -10,11 +10,12 @@
 
 	<!-- toolbar -->
 	<div id="toolbar">
+		<a href="http://kohanaphp.com/home" target="_blank">
+			<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . '/kohana.png' ?>" />
+		</a>
 		<ul class="menu">
 			<li>
-				<a href="http://kohanaphp.com/home" target="_blank">
-					<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . '/kohana.png' ?>" />
-				</a>
+				<a href="http://kohanaphp.com/home" target="_blank"><?php echo KOHANA_VERSION; ?></a>
 			</li>
 			<li id="time" onclick="debugToolbar.show('benchmarks'); return false;">
 				<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . '/time.png' ?>" />
@@ -50,7 +51,7 @@
 				<th align="right">memory</th>
 			</tr>
 			<?php if (count($benchmarks)): ?>
-				<?php foreach ($benchmarks as $name => $benchmark): ?>
+				<?php foreach ((array)$benchmarks as $name => $benchmark): ?>
 					<tr class="<?php echo text::alternate('odd','even')?>">
 						<td align="left"><?php echo $name ?></td>
 						<td align="right"><?php echo sprintf('%.2f', $benchmark['time'] * 1000)?> ms</td>
@@ -90,7 +91,7 @@
 			$total_time = 0;
 			$total_rows = 0;
 			?>
-			<?php foreach ($queries as $id => $query): ?>
+			<?php foreach ((array)$queries as $id => $query): ?>
 				<tr class="<?php echo text::alternate('odd','even')?>">
 					<td><?php echo $id + 1 ?></td>
 					<td><?php echo $query['query']?></td>
@@ -151,7 +152,7 @@
 				<th>level</th>
 				<th>message</th>
 			</tr>
-			<?php foreach ($logs as $id => $log): ?>
+			<?php foreach ((array)$logs as $id => $log): ?>
 				<tr class="<?php echo text::alternate('odd','even')?>">
 					<td width="1%"><?php echo $id + 1 ?></td>
 					<td width="150"><?php echo $log[0] ?></td>
