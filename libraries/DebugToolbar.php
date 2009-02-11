@@ -8,7 +8,6 @@ class DebugToolbar_Core {
 	// show the toolbar
 	public static function render($print = false) 
 	{
-		
 		// load dev toolbar view
 		$template = new View('toolbar');
 		
