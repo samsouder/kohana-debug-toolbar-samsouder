@@ -6,8 +6,9 @@ class DebugToolbar_Core {
 	public static $logs = array();
 	
 	// show the toolbar
-	public static function show() 
+	public static function render($print = false) 
 	{
+		
 		// load dev toolbar view
 		$template = new View('toolbar');
 		
@@ -19,8 +20,15 @@ class DebugToolbar_Core {
 		$template->set('styles', file_get_contents(Kohana::find_file('views', 'toolbar', false, 'css')));
 		$template->set('scripts', file_get_contents(Kohana::find_file('views', 'toolbar', true, 'js')));
 		
-		// render
-		$template->render(true);
+		if (Event::$data and Kohana::config('debug_toolbar.auto_render'))
+		{
+			// inject toolbar into end of HTML
+			Event::$data = preg_replace('/<\/body>/', $template->render(false) . '</body>', Event::$data);
+		}
+		else
+		{
+			$template->render($print);
+		}
 	}
 	
 	/*
@@ -28,9 +36,9 @@ class DebugToolbar_Core {
 	 * all log messages and save to 
 	 * self::$logs;
 	 */
-	public static function log($message) 
+	public static function log() 
 	{
-		self::$logs[] = $message;
+		self::$logs[] = Event::$data;
 	}
 	
 	/*
@@ -54,7 +62,9 @@ class DebugToolbar_Core {
 		foreach ((array)Kohana::config('core.modules') as $modpath)
 		{
 			if (is_dir("$modpath/config/"))
+			{
 				$paths[] = "$modpath/config/";
+			}
 		}
 		
 		$configuration = array();
@@ -72,7 +82,9 @@ class DebugToolbar_Core {
 					
 					// filter skip configs
 					if (in_array($filename, (array)Kohana::config('debug_toolbar.skip_configs')))
+					{
 						continue;
+					}
 					
 					// let Kohana find full path to file
 					if ($files = Kohana::find_file('config', $filename))
@@ -104,9 +116,13 @@ class DebugToolbar_Core {
 	private static function strip_ext($filename)
 	{
 		if (($pos = strrpos($filename, '.')) !== false)
+		{
 			return substr($filename, 0, $pos);
-		else 
+		}
+		else
+		{
 			return $filename;
+		}
 	}
 
 }

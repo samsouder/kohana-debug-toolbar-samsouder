@@ -1,10 +1,6 @@
-<?php
+<?php defined('SYSPATH') or die('No direct script access.');
 /*
- * Hook system.log event so logs can 
- * be displayed in the debug toolbar
+ * Capture logs
  */
-Event::add('system.log', 'debugToolbarLog');
-function debugToolbarLog() {
-	DebugToolbar::log(Event::$data);
-}
+Event::add('system.log', array('DebugToolbar', 'log'));
 ?>

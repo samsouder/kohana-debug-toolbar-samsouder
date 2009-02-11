@@ -1,3 +1,5 @@
+<?php defined('SYSPATH') or die('No direct script access.') ?>
+
 <style type="text/css">
 <?php echo $styles ?>
 </style>
@@ -15,15 +17,15 @@
 		</a>
 		<ul class="menu">
 			<li>
-				<a href="http://kohanaphp.com/home" target="_blank"><?php echo KOHANA_VERSION; ?></a>
+				<a href="http://kohanaphp.com/home" target="_blank"><?php echo KOHANA_VERSION ?></a>
 			</li>
 			<li id="time" onclick="debugToolbar.show('benchmarks'); return false;">
 				<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . '/time.png' ?>" />
-				<?php echo round(($benchmarks['system_benchmark_total_execution']['time'])*1000, 2)?> ms
+				<?php echo round(($benchmarks['system_benchmark_total_execution']['time'])*1000, 2) ?> ms
 			</li>
 			<li id="memory" onclick="debugToolbar.show('benchmarks'); return false;">
 				<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . '/memory.png' ?>" />
-				<?php echo round(($benchmarks['system_benchmark_total_execution']['memory'])/(1024*1024), 2)?> MB
+				<?php echo text::bytes($benchmarks['system_benchmark_total_execution']['memory']) ?>
 			</li>
 			<li id="toggle-database" onclick="debugToolbar.show('database'); return false;">
 				<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . '/database.png' ?>" />
@@ -55,23 +57,12 @@
 					<tr class="<?php echo text::alternate('odd','even')?>">
 						<td align="left"><?php echo $name ?></td>
 						<td align="right"><?php echo sprintf('%.2f', $benchmark['time'] * 1000)?> ms</td>
-						<td align="right"><?php echo sprintf('%.2f', $benchmark['memory'] / (1024 * 1024))?> MB</td>
+						<td align="right"><?php echo text::bytes($benchmark['memory'])?></td>
 					</tr>
 				<?php endforeach; ?>
-				<?php
-				extract($benchmarks['system_benchmark_total_execution']);
-				?>
-				<tr class="<?php echo text::alternate('odd','even')?>">
-					<th align="left">Total</th>
-					<th align="right"><?php echo sprintf('%.2f', $time * 1000)?> ms</th>
-					<th align="right"><?php echo sprintf('%.2f', $memory / (1024 * 1024))?> MB</th>
-				</tr>
 			<?php else: ?>
-				<tr class="<?php echo text::alternate('odd','even')?>">
-					<td align="left">no benchmarks to display</td><td align="right">-</td><td align="right">-</td>
-				</tr>
-				<tr>
-					<th align="left">total</th><th align="right">-</th><th align="right">-</th>
+				<tr class="<?php echo text::alternate('odd','even') ?>">
+					<td colspan="3">no benchmarks to display</td>
 				</tr>
 			<?php endif ?>
 		</table>
@@ -87,10 +78,7 @@
 				<th>time</th>
 				<th>rows</th>
 			</tr>
-			<?php
-			$total_time = 0;
-			$total_rows = 0;
-			?>
+			<?php $total_time = $total_rows = 0; ?>
 			<?php foreach ((array)$queries as $id => $query): ?>
 				<tr class="<?php echo text::alternate('odd','even')?>">
 					<td><?php echo $id + 1 ?></td>
@@ -123,21 +111,31 @@
 			<li onclick="debugToolbar.showvar(this, 'vars-session'); return false;">SESSION</li>
 			<li onclick="debugToolbar.showvar(this, 'vars-config'); return false;">CONFIG</li>
 		</ul>
-		<div style="display: none;" id="vars-post"><?php echo Kohana::debug($_POST) ?></div>
-		<div style="display: none;" id="vars-get"><?php echo Kohana::debug($_GET) ?></div>
-		<div style="display: none;" id="vars-server"><?php echo Kohana::debug($_SERVER) ?></div>
-		<div style="display: none;" id="vars-cookie"><?php echo Kohana::debug($_COOKIE) ?></div>
-		<div style="display: none;" id="vars-session"><?php echo isset($_SESSION) ? Kohana::debug($_SESSION) : '' ?></div>
+		<div style="display: none;" id="vars-post">
+			<?php echo isset($_POST) ? Kohana::debug($_POST) : Kohana::debug(array()) ?>
+		</div>
+		<div style="display: none;" id="vars-get">
+			<?php echo isset($_GET) ? Kohana::debug($_GET) : Kohana::debug(array()) ?>
+		</div>
+		<div style="display: none;" id="vars-server">
+			<?php echo isset($_SERVER) ? Kohana::debug($_SERVER) : Kohana::debug(array()) ?>
+		</div>
+		<div style="display: none;" id="vars-cookie">
+			<?php echo isset($_COOKIE) ? Kohana::debug($_COOKIE) : Kohana::debug(array()) ?>
+		</div>
+		<div style="display: none;" id="vars-session">
+			<?php echo isset($_SESSION) ? Kohana::debug($_SESSION) : Kohana::debug(array()) ?>
+		</div>
 		<div style="display: none;" id="vars-config">
 			<ul class="configmenu">
-			<?php foreach ($config as $section => $vars): ?>
-				<li class="<?php echo text::alternate('odd', 'even') ?>" onclick="debugToolbar.toggle('vars-config-<?php echo $section ?>'); return false;">
-					<div><?php echo $section ?></div>
-					<div style="display: none;" id="vars-config-<?php echo $section ?>">
-						<?php echo Kohana::debug($vars) ?>
-					</div>
-				</li>
-			<?php endforeach; ?>
+				<?php foreach ($config as $section => $vars): ?>
+					<li class="<?php echo text::alternate('odd', 'even') ?>" onclick="debugToolbar.toggle('vars-config-<?php echo $section ?>'); return false;">
+						<div><?php echo $section ?></div>
+						<div style="display: none;" id="vars-config-<?php echo $section ?>">
+							<?php echo Kohana::debug($vars) ?>
+						</div>
+					</li>
+				<?php endforeach; ?>
 			</ul>
 		</div>
 	</div>
