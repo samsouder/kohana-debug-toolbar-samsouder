@@ -19,7 +19,7 @@ class DebugToolbar_Core {
 		$template->set('styles', file_get_contents(Kohana::find_file('views', 'toolbar', false, 'css')));
 		$template->set('scripts', file_get_contents(Kohana::find_file('views', 'toolbar', true, 'js')));
 		
-		if (Event::$data and Kohana::config('debug_toolbar.auto_render'))
+		if (Event::$data and Kohana::config('debug_toolbar.auto_render') and !IN_PRODUCTION)
 		{
 			// inject toolbar into end of HTML
 			Event::$data = preg_replace('/<\/body>/', $template->render(false) . '</body>', Event::$data);
