@@ -4,7 +4,7 @@
 $config['auto_render'] = true;
 
 // Location of icon images, exclude trailing slash
-$config['icon_path'] = '/images';
+$config['icon_path'] = '/Kohana_v2.3.1/images';
 
 // List config files you would like to exclude
 // from showing in the toolbar (without extension).

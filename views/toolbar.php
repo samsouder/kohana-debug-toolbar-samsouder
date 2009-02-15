@@ -19,32 +19,36 @@
 			<li>
 				<a href="http://kohanaphp.com/home" target="_blank"><?php echo KOHANA_VERSION ?></a>
 			</li>
-			<li id="time" onclick="debugToolbar.show('benchmarks'); return false;">
+			<li id="time" onclick="debugToolbar.show('debug-benchmarks'); return false;">
 				<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . '/time.png' ?>" />
 				<?php echo round(($benchmarks['system_benchmark_total_execution']['time'])*1000, 2) ?> ms
 			</li>
-			<li id="memory" onclick="debugToolbar.show('benchmarks'); return false;">
+			<li id="memory" onclick="debugToolbar.show('debug-benchmarks'); return false;">
 				<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . '/memory.png' ?>" />
 				<?php echo text::bytes($benchmarks['system_benchmark_total_execution']['memory']) ?>
 			</li>
-			<li id="toggle-database" onclick="debugToolbar.show('database'); return false;">
+			<li id="toggle-database" onclick="debugToolbar.show('debug-database'); return false;">
 				<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . '/database.png' ?>" />
 				<?php echo count($queries)?>
 			</li>
-			<li id="toggle-vars" onclick="debugToolbar.show('vars'); return false;">
+			<li id="toggle-vars" onclick="debugToolbar.show('debug-vars'); return false;">
 				<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . '/config.png' ?>" />
 				vars &amp; config
 			</li>
-			<li id="toggle-log" onclick="debugToolbar.show('log'); return false;">
+			<li id="toggle-log" onclick="debugToolbar.show('debug-log'); return false;">
 				<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . '/logs.png' ?>" />
 				logs &amp; msgs
+			</li>
+			<li id="toggle-ajax" onclick="debugToolbar.show('debug-ajax'); return false;" style="display: none">
+				<img src="<?php echo Kohana::config('debug_toolbar.icon_path') . '/ajax.png' ?>" />
+				ajax
 			</li>
 			<li class="last" onclick="debugToolbar.close(); return false;"><img src="<?php echo Kohana::config('debug_toolbar.icon_path') . '/close.png' ?>" /></li>
 		</ul>
 	</div>
 	
 	<!-- benchmarks -->
-	<div id="benchmarks" class="top" style="display: none;">
+	<div id="debug-benchmarks" class="top" style="display: none;">
 		<h1>Benchmarks</h1>
 		<table cellspacing="0" cellpadding="0">
 			<tr>
@@ -69,7 +73,7 @@
 	</div>
 	
 	<!-- database -->
-	<div id="database" class="top" style="display: none;">
+	<div id="debug-database" class="top" style="display: none;">
 		<h1>SQL  queries</h1>
 		<table cellspacing="0" cellpadding="0">
 			<tr align="left">
@@ -101,7 +105,7 @@
 	</div>
 	
 	<!-- vars and config -->
-	<div id="vars" class="top" style="display: none;">
+	<div id="debug-vars" class="top" style="display: none;">
 		<h1>vars &amp; config</h1>
 		<ul class="varmenu">
 			<li onclick="debugToolbar.showvar(this, 'vars-post'); return false;">POST</li>
@@ -141,7 +145,7 @@
 	</div>
 	
 	<!-- logs and messages -->
-	<div id="log" class="top" style="display: none;">
+	<div id="debug-log" class="top" style="display: none;">
 		<h1>logs &amp; msgs</h1>
 		<table cellspacing="0" cellpadding="0">
 			<tr align="left">
@@ -159,6 +163,26 @@
 				</tr>
 			<?php endforeach; ?>
 		</table>
+	</div>
+	
+	<!-- ajax -->
+	<div id="debug-ajax" class="top" style="display:none;">
+		<h1>ajax</h1>
+			<table cellspacing="0" cellpadding="0">
+			<tr align="left">
+				<th>#</th>
+				<th>request</th>
+				<th>code</th>
+			</tr>
+		</table>
+	</div>
+	
+	<!-- firephp to the max! -->
+	<div id="debug-firephp" class="top" style="display: none;">
+		<h1>FirePHP</h1>
+		<div>
+			<?php if ( isset($firephp) ) var_dump($firephp); ?>
+		</div>
 	</div>
 
 </div>

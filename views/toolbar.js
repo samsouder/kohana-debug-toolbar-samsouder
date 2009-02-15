@@ -65,3 +65,37 @@ var debugToolbar = {
 		document.getElementById('debug-toolbar').style.display = 'none';
 	}
 };
+
+$(document).ready(function(){
+
+	/*
+	 * Test for javascript libraries
+	 * (only supports jQuery at the moment
+	 */
+	if (typeof jQuery != 'undefined') {
+		
+		// display ajax button in toolbar
+		$('#toggle-ajax').css({display: 'inline'});
+		
+		// bind ajax event
+		$('#debug-ajax').bind("ajaxComplete", function(evt, xmlrequest, ajaxOptions){ 
+			
+			// add a new row to ajax table
+			$('#debug-ajax table').append(
+				'<tr class="even">' +
+					'<td>' + $('#debug-ajax table tr').size() +'</td>' + 
+					'<td>' + ajaxOptions.url + '</td>' +
+					'<td>' + xmlrequest.statusText + '</td>' +
+				'</tr>'
+			);
+			
+			// stripe table
+			$('#debug-ajax table tbody tr:nth-child(even)').attr('class', 'odd');			
+		});
+		
+	}
+	
+	if (typeof Prototype != 'undefined') {
+	}
+	
+});

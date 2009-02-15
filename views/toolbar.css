@@ -44,10 +44,11 @@ div#debug-toolbar h1 {
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 20px;
-  padding: 0;
+  padding:0px 5px;
   border: 0px;
   background-color: #eee;
 	color: #000;
+	display:block;
 }
 div#debug-toolbar a, 
 div#debug-toolbar a:hover {
@@ -75,10 +76,14 @@ div#debug-toolbar table {
   font-size: 11px;
 	border: 1px solid #999;
 	width: 99%;
+	margin:0px 5px;
 }
 div#debug-toolbar td {
   padding: 3px 3px;
   vertical-align: top;
+	background-color: #eee;
+}
+div#debug-toolbar tr.odd td {
 	background-color: #ddd;
 }
 div#debug-toolbar th {
@@ -125,22 +130,22 @@ div#debug-toolbar div#toolbar ul.menu li.last {
 }
 
 /* Benchmarks */
-div#debug-toolbar div#benchmarks { padding: 3px 5px; }
+div#debug-toolbar div#debug-benchmarks { padding: 3px 0px; }
 
 /* SQL queries */
-div#debug-toolbar div#database { padding: 3px 5px; }
+div#debug-toolbar div#debug-database { padding: 3px 0px; }
 
 /* Vars & Config */
-div#debug-toolbar div#vars { padding: 3px 5px; }
-div#debug-toolbar div#vars pre {
+div#debug-toolbar div#debug-vars { padding: 3px 0px; }
+div#debug-toolbar div#debug-vars pre {
 	background-color: #ddd;
 	padding: 10px;
 }
-div#debug-toolbar div#vars .varmenu { 
+div#debug-toolbar div#debug-vars .varmenu { 
   margin: 20px 0 0 0; 
 	height: 23px;
 }
-div#debug-toolbar div#vars .varmenu li {
+div#debug-toolbar div#debug-vars .varmenu li {
 	float: left;
 	display: block;
 	padding: 5px;
@@ -150,27 +155,33 @@ div#debug-toolbar div#vars .varmenu li {
 	border-right: 1px solid #999;
 	cursor:  pointer;
 }
-div#debug-toolbar div#vars .varmenu li.active {
+div#debug-toolbar div#debug-vars .varmenu li.active {
 	background-color: #ddd;
 	color: #000;
 }
-div#debug-toolbar div#vars .configmenu { background-color: #ddd; }
-div#debug-toolbar div#vars .configmenu li {
+div#debug-toolbar div#debug-vars .configmenu { background-color: #ddd; }
+div#debug-toolbar div#debug-vars .configmenu li {
 	display: block;
 	padding: 5px;
 	cursor: pointer;
 }
-div#debug-toolbar div#vars .configmenu li.odd { background-color: #eee; }
-div#debug-toolbar div#vars .configmenu li.even { background-color: #fff; }
-div#debug-toolbar div#vars .configmenu li.odd pre { background-color: #eee; }
-div#debug-toolbar div#vars .configmenu li.even pre { background-color: #fff; }
-div#debug-toolbar div#vars .configmenu li:hover.odd { background-color: #ddd; }
-div#debug-toolbar div#vars .configmenu li:hover.even { background-color: #ddd; }
-div#debug-toolbar div#vars .configmenu li:hover.odd pre { background-color: #ddd; }
-div#debug-toolbar div#vars .configmenu li:hover.even pre { background-color: #ddd; }
+div#debug-toolbar div#debug-vars .configmenu li.odd { background-color: #eee; }
+div#debug-toolbar div#debug-vars .configmenu li.even { background-color: #fff; }
+div#debug-toolbar div#debug-vars .configmenu li.odd pre { background-color: #eee; }
+div#debug-toolbar div#debug-vars .configmenu li.even pre { background-color: #fff; }
+div#debug-toolbar div#debug-vars .configmenu li:hover.odd { background-color: #ddd; }
+div#debug-toolbar div#debug-vars .configmenu li:hover.even { background-color: #ddd; }
+div#debug-toolbar div#debug-vars .configmenu li:hover.odd pre { background-color: #ddd; }
+div#debug-toolbar div#debug-vars .configmenu li:hover.even pre { background-color: #ddd; }
 
 /* Logs & Msgs */
-div#debug-toolbar  div#log {
-	padding: 3px 5px;
+div#debug-toolbar div#debug-log {
+	padding: 3px 0px;
+	font-size: 11px;
+}
+
+/* Ajax */
+div#debug-toolbar div#debug-ajax {
+	padding: 3px 0px;
 	font-size: 11px;
 }
