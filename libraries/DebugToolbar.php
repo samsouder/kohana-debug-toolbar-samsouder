@@ -8,20 +8,22 @@ class DebugToolbar_Core {
 	// show the toolbar
 	public static function render($print = false) 
 	{
-		// load dev toolbar view
 		$template = new View('toolbar');
 		
-		// set view data
-		$template->set('queries', Database::$benchmarks);
-		$template->set('benchmarks', Benchmark::get(true));
-		$template->set('logs', self::$logs);
-		$template->set('config', self::load_config());
+		$template->set('queries', self::queries());
+		$template->set('benchmarks', self::benchmarks());
+		$template->set('logs', self::logs());
+		$template->set('configs', self::configs());
+		
 		$template->set('styles', file_get_contents(Kohana::find_file('views', 'toolbar', false, 'css')));
 		$template->set('scripts', file_get_contents(Kohana::find_file('views', 'toolbar', true, 'js')));
 		
-		if (Event::$data and Kohana::config('debug_toolbar.auto_render') and !IN_PRODUCTION)
+		if (Event::$data and Kohana::config('debug_toolbar.auto_render'))
 		{
-			// inject toolbar into end of HTML
+			/*
+			 * Inject toolbar html before </body> tag.  If there is
+			 * no closing body tag, I dont know what to do :P
+			 */
 			Event::$data = preg_replace('/<\/body>/', $template->render(false) . '</body>', Event::$data);
 		}
 		else
@@ -40,6 +42,44 @@ class DebugToolbar_Core {
 		self::$logs[] = Event::$data;
 	}
 	
+	public static function logs()
+	{
+		return self::$logs;
+	}
+	
+	public static function queries()
+	{
+		return Database::$benchmarks;
+	}
+	
+	public static function benchmarks()
+	{
+		$benchmarks = array();
+		foreach (Benchmark::get(true) as $name => $benchmark)
+		{
+			$benchmarks[$name] = array(
+				'name'   => ucwords(str_replace(array('_', '-'), ' ', str_replace(SYSTEM_BENCHMARK.'_', '', $name))),
+				'time'   => $benchmark['time'],
+				'memory' => $benchmark['memory']
+			);
+		}
+		$benchmarks = array_slice($benchmarks, 1) + array_slice($benchmarks, 0, 1);
+		return $benchmarks;
+	}
+	
+	// return a filename without extension
+	private static function strip_ext($filename)
+	{
+		if (($pos = strrpos($filename, '.')) !== false)
+		{
+			return substr($filename, 0, $pos);
+		}
+		else
+		{
+			return $filename;
+		}
+	}
+	
 	/*
 	 * Config is only directly accessible from inside
 	 * the Kohana core class.  So, unfortunately, I have
@@ -47,7 +87,7 @@ class DebugToolbar_Core {
 	 * This is pretty inneficient but I can't think of a way
 	 * around it.
 	 */
-	private static function load_config() 
+	private static function configs() 
 	{	
 		if (Kohana::config('debug_toolbar.skip_configs') === true)
 		{
@@ -109,19 +149,6 @@ class DebugToolbar_Core {
 			}
 		}
 		return $configuration;
-	}
-	
-	// return a filename without extension
-	private static function strip_ext($filename)
-	{
-		if (($pos = strrpos($filename, '.')) !== false)
-		{
-			return substr($filename, 0, $pos);
-		}
-		else
-		{
-			return $filename;
-		}
 	}
 
 }

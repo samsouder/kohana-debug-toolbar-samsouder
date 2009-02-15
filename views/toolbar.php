@@ -57,11 +57,11 @@
 				<th align="right">memory</th>
 			</tr>
 			<?php if (count($benchmarks)): ?>
-				<?php foreach ((array)$benchmarks as $name => $benchmark): ?>
+				<?php foreach ((array)$benchmarks as $benchmark): ?>
 					<tr class="<?php echo text::alternate('odd','even')?>">
-						<td align="left"><?php echo $name ?></td>
-						<td align="right"><?php echo sprintf('%.2f', $benchmark['time'] * 1000)?> ms</td>
-						<td align="right"><?php echo text::bytes($benchmark['memory'])?></td>
+						<td align="left"><?php echo $benchmark['name'] ?></td>
+						<td align="right"><?php echo sprintf('%.2f', $benchmark['time'] * 1000) ?> ms</td>
+						<td align="right"><?php echo text::bytes($benchmark['memory']) ?></td>
 					</tr>
 				<?php endforeach; ?>
 			<?php else: ?>
@@ -132,7 +132,7 @@
 		</div>
 		<div style="display: none;" id="vars-config">
 			<ul class="configmenu">
-				<?php foreach ($config as $section => $vars): ?>
+				<?php foreach ($configs as $section => $vars): ?>
 					<li class="<?php echo text::alternate('odd', 'even') ?>" onclick="debugToolbar.toggle('vars-config-<?php echo $section ?>'); return false;">
 						<div><?php echo $section ?></div>
 						<div style="display: none;" id="vars-config-<?php echo $section ?>">
