@@ -59,7 +59,7 @@ div#debug-toolbar pre { line-height: 1.3 }
 
 
 div#debug-toolbar .top {
-	position: absolute;
+	position: fixed;
 	left: 0px;
 	top: 0px;
 	width: 100%;
@@ -77,6 +77,7 @@ div#debug-toolbar table {
 	border: 1px solid #999;
 	width: 99%;
 	margin:0px 5px;
+	font-family: monospace;
 }
 div#debug-toolbar td {
   padding: 3px 3px;
@@ -100,7 +101,7 @@ div#debug-toolbar th {
 
 /* Toolbar */
 div#debug-toolbar div#toolbar {
-	position: absolute;
+	position: fixed;
 	padding: 0 0 3px 0;
 	right: 0px;
 	top: 0px;
@@ -112,7 +113,6 @@ div#debug-toolbar div#toolbar {
 	background-color: #ccc;
 }
 div#debug-toolbar div#toolbar img { vertical-align: middle; }
-div#debug-toolbar div#toolbar[id] { position: fixed; }
 div#debug-toolbar div#toolbar ul.menu {
 	padding: 5px;
 	display: inline;
@@ -140,6 +140,7 @@ div#debug-toolbar div#debug-vars { padding: 3px 0px; }
 div#debug-toolbar div#debug-vars pre {
 	background-color: #ddd;
 	padding: 10px;
+	color: #333;
 }
 div#debug-toolbar div#debug-vars .varmenu { 
   margin: 20px 0 0 0; 

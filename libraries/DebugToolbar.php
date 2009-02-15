@@ -19,7 +19,7 @@ class DebugToolbar_Core {
 		$template->set('scripts', file_get_contents(Kohana::find_file('views', 'toolbar', true, 'js')));
 		
 		if (Event::$data and Kohana::config('debug_toolbar.auto_render'))
-		{
+		{			
 			/*
 			 * Inject toolbar html before </body> tag.  If there is
 			 * no closing body tag, I dont know what to do :P
@@ -67,19 +67,6 @@ class DebugToolbar_Core {
 		return $benchmarks;
 	}
 	
-	// return a filename without extension
-	private static function strip_ext($filename)
-	{
-		if (($pos = strrpos($filename, '.')) !== false)
-		{
-			return substr($filename, 0, $pos);
-		}
-		else
-		{
-			return $filename;
-		}
-	}
-	
 	/*
 	 * Config is only directly accessible from inside
 	 * the Kohana core class.  So, unfortunately, I have
@@ -95,7 +82,10 @@ class DebugToolbar_Core {
 		}
 		
 		// paths to application and system config
-		$paths = array(APPPATH.'config/', SYSPATH.'config/');
+		$paths = array(
+			APPPATH.'config/', 
+			SYSPATH.'config/'
+		);
 		
 		// paths to module config
 		foreach ((array)Kohana::config('core.modules') as $modpath)
@@ -114,10 +104,10 @@ class DebugToolbar_Core {
 			if ($handle = opendir($path)) 
 			{
 				// read all files in config dir
-				while (false !== ($file = readdir($handle))) 
+				while (($file = readdir($handle)) !== false) 
 				{
 					// remove file extension from file name
-					$filename = self::strip_ext($file);
+					$filename = self::_strip_ext($file);
 					
 					// filter skip configs
 					if (in_array($filename, (array)Kohana::config('debug_toolbar.skip_configs')))
@@ -133,14 +123,7 @@ class DebugToolbar_Core {
 							require $file;
 							if (isset($config) AND is_array($config))
 							{
-								if (empty($configuration[$filename]))
-								{
-									$configuration[$filename] = $config;
-								} 
-								else 
-								{
-									$configuration[$filename] = array_merge($configuration[$filename], $config);
-								}
+								$configuration[$filename] = isset($configuration[$filename]) ? array_merge($configuration[$filename], $config) : $config;
 							}
 							$config = array();
 						}
@@ -149,6 +132,19 @@ class DebugToolbar_Core {
 			}
 		}
 		return $configuration;
+	}
+	
+	// return a filename without extension
+	private static function _strip_ext($filename)
+	{
+		if (($pos = strrpos($filename, '.')) !== false)
+		{
+			return substr($filename, 0, $pos);
+		}
+		else
+		{
+			return $filename;
+		}
 	}
 
 }

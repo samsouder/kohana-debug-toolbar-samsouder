@@ -157,7 +157,7 @@
 			<?php foreach ((array)$logs as $id => $log): ?>
 				<tr class="<?php echo text::alternate('odd','even')?>">
 					<td width="1%"><?php echo $id + 1 ?></td>
-					<td width="150"><?php echo $log[0] ?></td>
+					<td width="200"><?php echo $log[0] ?></td>
 					<td width="100"><?php echo $log[1] ?></td>
 					<td><?php echo $log[2] ?></td>
 				</tr>
@@ -175,14 +175,6 @@
 				<th>code</th>
 			</tr>
 		</table>
-	</div>
-	
-	<!-- firephp to the max! -->
-	<div id="debug-firephp" class="top" style="display: none;">
-		<h1>FirePHP</h1>
-		<div>
-			<?php if ( isset($firephp) ) var_dump($firephp); ?>
-		</div>
 	</div>
 
 </div>
