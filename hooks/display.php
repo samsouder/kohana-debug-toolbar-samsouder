@@ -11,4 +11,3 @@ if (!IN_PRODUCTION)
 	 */
 	Event::add('system.display', array('DebugToolbar', 'render'));
 }
-?>

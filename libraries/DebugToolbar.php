@@ -5,10 +5,12 @@ class DebugToolbar_Core {
 	// system.log events
 	public static $logs = array();
 	
+	public static $benchmark_name = 'debug_toolbar';
+	
 	// show the toolbar
 	public static function render($print = false) 
 	{
-		Benchmark::start('kohana_debug_toolbar');
+		Benchmark::start(self::$benchmark_name);
 		
 		$template = new View('toolbar');
 		
@@ -45,7 +47,7 @@ class DebugToolbar_Core {
 			$template->render($print);
 		}
 		
-		Benchmark::stop('kohana_debug_toolbar');
+		Benchmark::stop(self::$benchmark_name);
 	}
 	
 	/*

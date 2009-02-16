@@ -15,13 +15,10 @@ $config['skip_configs'] = array('database');
 // log toolbar data to FirePHP
 $config['firephp_enabled'] = TRUE;
 
-// not implemented
 $config['panels'] = array(
 	'benchmarks'      => TRUE,
-	'database'        => FALSE,
+	'database'        => TRUE,
 	'vars_and_config' => TRUE,
 	'logs'            => TRUE,
-	'ajax'            => TRUE // only supports jQuery atm
+	'ajax'            => TRUE
 );
-
-?>
