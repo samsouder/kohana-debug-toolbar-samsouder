@@ -1,43 +1,12 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Fire_Profiler extends FirePHP {
+class Fire_Profiler {
+
+	private $firephp;
 
 	public function __construct()
 	{
-		parent::__construct();
-		
-		// Add all built in profiles to event
-		Event::add('fire-profiler.run', array($this, 'benchmarks'));
-		Event::add('fire-profiler.run', array($this, 'database'));
-		Event::add('fire-profiler.run', array($this, 'session'));
-		Event::add('fire-profiler.run', array($this, 'post'));
-		Event::add('fire-profiler.run', array($this, 'cookies'));
-		
-		// Add profiler to page output automatically
-		Event::add('system.display', array($this, 'render'));
-	}
-	
-	/**
-	* Disables the profiler for this page only.
-	* Best used when profiler is autoloaded.
-	*
-	* @return  void
-	*/
-	public function disable()
-	{
-		// Removes itself from the event queue
-		Event::clear('system.display', array($this, 'render'));
-	}
-	
-	/**
-	* Render the profiler. Output is added to FirePHP
-	*
-	* @param   boolean  return the output if TRUE
-	* @return  void|string
-	*/     
-	public function render()
-	{
-		Event::run('fire-profiler.run', $this);                 
+		$this->firephp = FirePHP::getInstance(true);
 	}
 	
 	/**
@@ -55,13 +24,17 @@ class Fire_Profiler extends FirePHP {
 		
 		foreach ($queries as $query)
 		{
-			$table[]=array(str_replace("\n",' ',$query['query']), number_format($query['time'], 3), $query['rows']);
+			$table[] = array(
+				str_replace("\n",' ',$query['query']), 
+				number_format($query['time'], 3), 
+				$query['rows']
+			);
 			
 			$total_time += $query['time'];
 			$total_rows += $query['rows'];
 		}
 		
-		$this->fb(
+		$this->firephp->fb(
 			array(
 				count($queries).' SQL queries took '.number_format($total_time,3).' seconds and returned '.$total_rows.' rows',
 				$table
@@ -90,10 +63,14 @@ class Fire_Profiler extends FirePHP {
 			// Clean unique id from system benchmark names
 			$name = ucwords(str_replace(array('_', '-'), ' ', str_replace(SYSTEM_BENCHMARK.'_', '', $name)));
 			
-			$table[]= array($name, number_format($benchmark['time'], 3), number_format($benchmark['memory'] / 1024 / 1024, 2).'MB');
+			$table[] = array(
+				$name, 
+				number_format($benchmark['time'], 3), 
+				number_format($benchmark['memory'] / 1024 / 1024, 2).'MB'
+			);
 		}
 		
-		$this->fb(
+		$this->firephp->fb(
 			array(
 				count($benchmarks).' benchmarks took '.number_format($benchmark['time'], 3).' seconds and used up '. number_format($benchmark['memory'] / 1024 / 1024, 2).'MB'.' memory',
 				$table
@@ -124,7 +101,7 @@ class Fire_Profiler extends FirePHP {
 			$table[] = array($name, $value);
 		}
 		
-		$this->fb(
+		$this->firephp->fb(
 			array(
 				'Session: '.count($_SESSION).' session variables',
 				$table
@@ -150,7 +127,7 @@ class Fire_Profiler extends FirePHP {
 			$table[] = array($name, $value);
 		}    
 		
-		$this->fb(
+		$this->firephp->fb(
 			array(
 				'Cookies: '.count($_COOKIE).' cookies',
 				$table
@@ -176,7 +153,7 @@ class Fire_Profiler extends FirePHP {
 			$table[] = array($name, $value);
 		}       
 		
-		$this->fb(
+		$this->firephp->fb(
 			array(
 				'Post: '.count($_POST).' POST variables',
 				$table

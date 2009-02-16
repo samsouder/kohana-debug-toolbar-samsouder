@@ -8,12 +8,26 @@ class DebugToolbar_Core {
 	// show the toolbar
 	public static function render($print = false) 
 	{
+		Benchmark::start('kohana_debug_toolbar');
+		
 		$template = new View('toolbar');
 		
-		$template->set('queries', self::queries());
-		$template->set('benchmarks', self::benchmarks());
-		$template->set('logs', self::logs());
-		$template->set('configs', self::configs());
+		if (Kohana::config('debug_toolbar.panels.database'))
+			$template->set('queries', self::queries());
+			
+		if (Kohana::config('debug_toolbar.panels.benchmarks'))
+			$template->set('benchmarks', self::benchmarks());
+			
+		if (Kohana::config('debug_toolbar.panels.logs'))
+			$template->set('logs', self::logs());
+			
+		if (Kohana::config('debug_toolbar.panels.vars_and_config'))
+			$template->set('configs', self::configs());
+		
+		if (Kohana::config('debug_toolbar.firephp_enabled'))
+		{
+			self::firephp();
+		}
 		
 		$template->set('styles', file_get_contents(Kohana::find_file('views', 'toolbar', false, 'css')));
 		$template->set('scripts', file_get_contents(Kohana::find_file('views', 'toolbar', true, 'js')));
@@ -30,6 +44,8 @@ class DebugToolbar_Core {
 		{
 			$template->render($print);
 		}
+		
+		Benchmark::stop('kohana_debug_toolbar');
 	}
 	
 	/*
@@ -65,6 +81,101 @@ class DebugToolbar_Core {
 		}
 		$benchmarks = array_slice($benchmarks, 1) + array_slice($benchmarks, 0, 1);
 		return $benchmarks;
+	}
+	
+	/*
+	 * Add toolbar data to FirePHP console
+	 */
+	private static function firephp()
+	{
+		$firephp = FirePHP::getInstance(true);
+		
+		$firephp->fb('KOHANA DEBUG TOOLBAR:');
+		
+		// globals
+		
+		$globals = array(
+			'Session' => empty($_SESSION) ? array() : $_SESSION,
+			'Post'    => empty($_POST)    ? array() : $_POST,
+			'Cookie'  => empty($_COOKIE)  ? array() : $_COOKIE
+		);
+		
+		foreach ($globals as $name => $global)
+		{
+			$table = array();
+			$table[] = array($name,'Value');
+			
+			foreach($global as $key => $value)
+			{
+				if (is_object($value))
+					$value = get_class($value).' [object]';
+					
+				$table[] = array($key, $value);
+			}
+			
+			$firephp->fb(
+				array(
+					"$name: ".count($global).' variables',
+					$table
+				),
+				FirePHP::TABLE
+			);
+		}
+		
+		// database
+		
+		$queries = self::queries();
+		
+		$total_time = $total_rows = 0;
+		$table = array();
+		$table[] = array('SQL Statement','Time','Rows');
+		
+		foreach ($queries as $query)
+		{
+			$table[] = array(
+				str_replace("\n",' ',$query['query']), 
+				number_format($query['time'], 3), 
+				$query['rows']
+			);
+			
+			$total_time += $query['time'];
+			$total_rows += $query['rows'];
+		}
+		
+		$firephp->fb(
+			array(
+				'Queries: ' . count($queries).' SQL queries took '.number_format($total_time,3).' seconds and returned '.$total_rows.' rows',
+				$table
+			),
+			FirePHP::TABLE
+		);
+		
+		// benchmarks
+		
+		$benchmarks = self::benchmarks();
+		
+		$table = array();
+		$table[] = array('Benchmark','Time','Memory');
+		
+		foreach ($benchmarks as $name => $benchmark)
+		{
+			// Clean unique id from system benchmark names
+			$name = ucwords(str_replace(array('_', '-'), ' ', str_replace(SYSTEM_BENCHMARK.'_', '', $name)));
+			
+			$table[] = array(
+				$name, 
+				number_format($benchmark['time'], 3), 
+				number_format($benchmark['memory'] / 1024 / 1024, 2).'MB'
+			);
+		}
+		
+		$firephp->fb(
+			array(
+				'Benchmarks: ' . count($benchmarks).' benchmarks took '.number_format($benchmark['time'], 3).' seconds and used up '. number_format($benchmark['memory'] / 1024 / 1024, 2).'MB'.' memory',
+				$table
+			),
+			FirePHP::TABLE
+		); 
 	}
 	
 	/*

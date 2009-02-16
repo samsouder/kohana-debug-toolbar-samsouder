@@ -83,19 +83,26 @@ $(document).ready(function(){
 			// add a new row to ajax table
 			$('#debug-ajax table').append(
 				'<tr class="even">' +
-					'<td>' + $('#debug-ajax table tr').size() +'</td>' + 
-					'<td>' + ajaxOptions.url + '</td>' +
-					'<td>' + xmlrequest.statusText + '</td>' +
-				'</tr>'
+					'<td>' + $('#debug-ajax table tr').size() +'<\/td>' + 
+					'<td>jQuery ' + jQuery.fn.jquery + '<\/td>' + 
+					'<td>' + xmlrequest.statusText + ' (' + xmlrequest.status + ')<\/td>' +
+					'<td>' + ajaxOptions.url + '<\/td>' +
+				'<\/tr>'
 			);
 			
 			// stripe table
-			$('#debug-ajax table tbody tr:nth-child(even)').attr('class', 'odd');			
+			$('#debug-ajax table tbody tr:nth-child(even)').attr('class', 'odd');	
+			
+			// update count in toolbar
+			$('#toggle-ajax span').text($('#debug-ajax table tr').size()-1);
+			
 		});
 		
 	}
 	
 	if (typeof Prototype != 'undefined') {
 	}
+	
+	//setInterval('$.get("/asdf");', 1000);
 	
 });
