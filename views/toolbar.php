@@ -176,9 +176,9 @@
 					<?php foreach ($configs as $section => $vars): ?>
 						<li class="<?php echo text::alternate('odd', 'even') ?>" onclick="debugToolbar.toggle('vars-config-<?php echo $section ?>'); return false;">
 							<div><?php echo $section ?></div>
-							<div style="display: none;" id="vars-config-<?php echo $section ?>">
+							<pre style="display: none;" id="vars-config-<?php echo $section ?>">
 								<?php echo Kohana::debug($vars) ?>
-							</div>
+							</pre>
 						</li>
 					<?php endforeach; ?>
 				</ul>

@@ -53,11 +53,11 @@ var debugToolbar = {
 	
 	// toggle an element
 	toggle : function(obj) {
-		if (document.getElementById(obj) != null)
-			if (document.getElementById(obj).style.display == '')
-				debugToolbar.off(obj);
-			else if (document.getElementById(obj).style.display == 'none')
-				debugToolbar.on(obj);
+		if (typeof obj == 'string')
+			obj = document.getElementById(obj);
+			
+		if (obj)
+			obj.style.display = obj.style.display == 'none' ? '' : 'none';
 	},
 	
 	// close the toolbar
