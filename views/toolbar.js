@@ -62,23 +62,35 @@ var debugToolbar = {
 	
 	// close the toolbar
 	close : function() {
-		document.getElementById('debug-toolbar').style.display = 'none';
+		document.getElementById('kohana-debug-toolbar').style.display = 'none';
+	},
+	
+	swap: function() {
+		var toolbar = document.getElementById('debug-toolbar');
+		if (toolbar.style.right) {
+			toolbar.style.left = '0px';
+			toolbar.style.right = null;
+		} else {
+			toolbar.style.left = null;
+			toolbar.style.right = '0px';
+		}
 	}
+
 };
 
-$(document).ready(function(){
+/*
+ * Test for javascript libraries
+ * (only supports jQuery at the moment
+ */
+if (typeof jQuery != 'undefined') {
 
-	/*
-	 * Test for javascript libraries
-	 * (only supports jQuery at the moment
-	 */
-	if (typeof jQuery != 'undefined') {
+	$(document).ready(function(){
 		
 		// display ajax button in toolbar
 		$('#toggle-ajax').css({display: 'inline'});
 		
 		// bind ajax event
-		$('#debug-ajax').bind("ajaxComplete", function(evt, xmlrequest, ajaxOptions){ 
+		$('#debug-ajax').bind("ajaxComplete", function(event, xmlrequest, ajaxOptions){ 
 			
 			// add a new row to ajax table
 			$('#debug-ajax table').append(
@@ -97,12 +109,10 @@ $(document).ready(function(){
 			$('#toggle-ajax span').text($('#debug-ajax table tr').size()-1);
 			
 		});
-		
-	}
+	});
+}
 	
-	if (typeof Prototype != 'undefined') {
-	}
+if (typeof Prototype != 'undefined') {
+
+}
 	
-	//setInterval('$.get("/asdf");', 1000);
-	
-});

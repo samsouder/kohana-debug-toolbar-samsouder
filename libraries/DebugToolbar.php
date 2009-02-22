@@ -27,9 +27,7 @@ class DebugToolbar_Core {
 			$template->set('configs', self::configs());
 		
 		if (Kohana::config('debug_toolbar.firephp_enabled'))
-		{
 			self::firephp();
-		}
 		
 		$template->set('styles', file_get_contents(Kohana::find_file('views', 'toolbar', false, 'css')));
 		$template->set('scripts', file_get_contents(Kohana::find_file('views', 'toolbar', true, 'js')));
@@ -190,9 +188,7 @@ class DebugToolbar_Core {
 	private static function configs() 
 	{	
 		if (Kohana::config('debug_toolbar.skip_configs') === true)
-		{
 			return array();
-		}
 		
 		// paths to application and system config
 		$paths = array(
