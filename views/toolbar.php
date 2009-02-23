@@ -11,7 +11,7 @@
 <div id="kohana-debug-toolbar">
 
 	<!-- toolbar -->
-	<div id="debug-toolbar" style="right: 0">
+	<div id="debug-toolbar" style="<?php echo $align ?>">
 	
 		<!-- Kohana link -->
 		<?php echo html::anchor(

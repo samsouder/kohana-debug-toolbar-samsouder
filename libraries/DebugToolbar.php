@@ -29,6 +29,20 @@ class DebugToolbar_Core {
 		if (Kohana::config('debug_toolbar.firephp_enabled'))
 			self::firephp();
 		
+		$align = '';
+		switch (Kohana::config('debug_toolbar.align'))
+		{
+			case 'right':
+				$align = 'right: 0';
+				break;
+			case 'center':
+				$align = '';
+				break;
+			default:
+				$align = 'left: 0';		
+		}
+		$template->set('align', $align);
+		
 		$template->set('styles', file_get_contents(Kohana::find_file('views', 'toolbar', false, 'css')));
 		$template->set('scripts', file_get_contents(Kohana::find_file('views', 'toolbar', true, 'js')));
 		
@@ -95,10 +109,10 @@ class DebugToolbar_Core {
 		// globals
 		
 		$globals = array(
-			'Session' => empty($_SESSION) ? array() : $_SESSION,
 			'Post'    => empty($_POST)    ? array() : $_POST,
+			'Get'     => empty($_GET)     ? array() : $_GET,
 			'Cookie'  => empty($_COOKIE)  ? array() : $_COOKIE,
-			'Get'     => empty($_GET)     ? array() : $_GET
+			'Session' => empty($_SESSION) ? array() : $_SESSION
 		);
 		
 		foreach ($globals as $name => $global)
