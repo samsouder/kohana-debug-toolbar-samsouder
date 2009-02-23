@@ -70,6 +70,9 @@ var debugToolbar = {
 		if (toolbar.style.right) {
 			toolbar.style.left = '0px';
 			toolbar.style.right = null;
+		} else if (toolbar.style.left) {
+			toolbar.style.left = null;
+			toolbar.style.right = null;
 		} else {
 			toolbar.style.left = null;
 			toolbar.style.right = '0px';
