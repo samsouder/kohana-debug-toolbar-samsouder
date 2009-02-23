@@ -1,9 +1,11 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
 // If true, the debug toolbar will be automagically displayed
+// NOTE: if IN_PRODUCTION is set to TRUE, the toolbar will
+// not render, even if auto_render is TRUE
 $config['auto_render'] = TRUE;
 
-// Location of icon images, exclude trailing slash
+// Location of icon images
 // relative to your site_domain
 $config['icon_path'] = 'images';
 
@@ -16,6 +18,7 @@ $config['skip_configs'] = array('database', 'encryption');
 // log toolbar data to FirePHP
 $config['firephp_enabled'] = TRUE;
 
+// enable/disable specific panels
 $config['panels'] = array(
 	'benchmarks'      => TRUE,
 	'database'        => TRUE,

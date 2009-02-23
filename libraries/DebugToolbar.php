@@ -97,7 +97,8 @@ class DebugToolbar_Core {
 		$globals = array(
 			'Session' => empty($_SESSION) ? array() : $_SESSION,
 			'Post'    => empty($_POST)    ? array() : $_POST,
-			'Cookie'  => empty($_COOKIE)  ? array() : $_COOKIE
+			'Cookie'  => empty($_COOKIE)  ? array() : $_COOKIE,
+			'Get'     => empty($_GET)     ? array() : $_GET
 		);
 		
 		foreach ($globals as $name => $global)
