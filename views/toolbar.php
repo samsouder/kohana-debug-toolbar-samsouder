@@ -71,6 +71,15 @@
 				</li>
 			<?php endif ?>
 			
+			<!-- Files -->
+			<?php if (Kohana::config('debug_toolbar.panels.files')): ?>
+				<li id="toggle-files" onclick="debugToolbar.show('debug-files'); return false;">
+					<?php echo html::image(Kohana::config('debug_toolbar.icon_path').'/page_copy.png') ?>
+					files
+				</li>
+			<?php endif ?>
+
+			
 			<!-- Swap sides -->
 			<li onclick="debugToolbar.swap(); return false;">
 				<?php echo html::image(Kohana::config('debug_toolbar.icon_path').'/text_align_left.png') ?>
@@ -223,5 +232,29 @@
 			</table>
 		</div>
 	<?php endif ?>
+	
+	<!-- files -->
+	<?php if (Kohana::config('debug_toolbar.panels.files')): ?>
+		<div id="debug-files" class="top" style="display: none;">
+			<h1>files</h1>
+			<table cellspacing="0" cellpadding="0">
+				<tr align="left">
+					<th>#</th>
+					<th>file</th>
+					<th>size</th>
+					<th>lines</th>
+				</tr>
+				<?php foreach ((array)$files as $id => $file): ?>
+					<tr class="<?php echo text::alternate('odd','even')?>">
+						<td><?php echo $id + 1 ?></td>
+						<td><?php echo $file ?></td>
+						<td><?php echo filesize($file) ?></td>
+						<td><?php echo count(file($file)) ?></td>
+					</tr>
+				<?php endforeach; ?>
+			</table>
+		</div>
+	<?php endif ?>
+
 
 </div>

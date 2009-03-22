@@ -26,6 +26,9 @@ class DebugToolbar_Core {
 		if (Kohana::config('debug_toolbar.panels.vars_and_config'))
 			$template->set('configs', self::configs());
 		
+		if (Kohana::config('debug_toolbar.panels.files'))
+			$template->set('files', self::files());
+		
 		if (Kohana::config('debug_toolbar.firephp_enabled'))
 			self::firephp();
 		
@@ -257,6 +260,12 @@ class DebugToolbar_Core {
 		}
 		return $configuration;
 	}
+	
+	public static function files()
+	{
+		return get_included_files();
+	}
+
 	
 	// return a filename without extension
 	private static function _strip_ext($filename)

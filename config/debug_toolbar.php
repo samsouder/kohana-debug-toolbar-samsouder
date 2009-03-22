@@ -34,7 +34,8 @@ $config['panels'] = array(
 	'database'        => TRUE,
 	'vars_and_config' => TRUE,
 	'logs'            => TRUE,
-	'ajax'            => TRUE
+	'ajax'            => TRUE,
+	'files'           => TRUE
 );
 
 /*
