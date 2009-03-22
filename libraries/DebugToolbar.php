@@ -203,6 +203,7 @@ class DebugToolbar_Core {
 	 * This is pretty inneficient but I can't think of a way
 	 * around it.
 	 */
+	/*
 	private static function configs() 
 	{	
 		if (Kohana::config('debug_toolbar.skip_configs') === true)
@@ -260,7 +261,40 @@ class DebugToolbar_Core {
 		}
 		return $configuration;
 	}
+	*/
 	
+	/*
+	 * Config is only directly accessible from inside
+	 * the Kohana core class.  So, unfortunately, I have
+	 * to go through and load every config file manually. 
+	 * This is pretty inneficient but I can't think of a way
+	 * around it.
+	 */
+	private static function configs() 
+	{	
+		if (Kohana::config('debug_toolbar.skip_configs') === TRUE)
+			return array();
+		
+		$inc_paths = Kohana::include_paths();
+		$configs = array();
+		foreach ($inc_paths as $inc_path)
+		{
+			foreach (glob($inc_path.'/config/*.php') as $filename) 
+			{
+				$filename = pathinfo($filename, PATHINFO_FILENAME);
+				if (in_array($filename, (array)Kohana::config('debug_toolbar.skip_configs')))
+					continue;
+				
+				if (!isset($configs[$filename]))
+					$configs[$filename] = Kohana::Config($filename);
+			}
+		}
+		return $configs;
+	}
+	
+	/*
+	 * Get list of included files
+	 */
 	public static function files()
 	{
 		return get_included_files();
