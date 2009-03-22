@@ -17,9 +17,6 @@ class DebugToolbar_Core {
 		if (Kohana::config('debug_toolbar.panels.database'))
 			$template->set('queries', self::queries());
 			
-		if (Kohana::config('debug_toolbar.panels.benchmarks'))
-			$template->set('benchmarks', self::benchmarks());
-			
 		if (Kohana::config('debug_toolbar.panels.logs'))
 			$template->set('logs', self::logs());
 			
@@ -49,20 +46,26 @@ class DebugToolbar_Core {
 		$template->set('styles', file_get_contents(Kohana::find_file('views', 'toolbar', false, 'css')));
 		$template->set('scripts', file_get_contents(Kohana::find_file('views', 'toolbar', true, 'js')));
 		
+		Benchmark::stop(self::$benchmark_name);
+		
+		if (Kohana::config('debug_toolbar.panels.benchmarks'))
+			$template->set('benchmarks', self::benchmarks());
+		
 		if (Event::$data and Kohana::config('debug_toolbar.auto_render'))
 		{			
-			/*
-			 * Inject toolbar html before </body> tag.  If there is
-			 * no closing body tag, I dont know what to do :P
-			 */
-			Event::$data = preg_replace('/<\/body>/', $template->render(false) . '</body>', Event::$data);
+			if (stripos(Event::$data, '</body>') !== FALSE)
+			{
+				Event::$data = str_ireplace('</body>', $template->render().'</body>', Event::$data);
+			}
+			else
+			{
+				Event::$data .= $template->render();
+			}
 		}
 		else
 		{
 			$template->render($print);
 		}
-		
-		Benchmark::stop(self::$benchmark_name);
 	}
 	
 	/*
@@ -197,78 +200,7 @@ class DebugToolbar_Core {
 	}
 	
 	/*
-	 * Config is only directly accessible from inside
-	 * the Kohana core class.  So, unfortunately, I have
-	 * to go through and load every config file manually. 
-	 * This is pretty inneficient but I can't think of a way
-	 * around it.
-	 */
-	/*
-	private static function configs() 
-	{	
-		if (Kohana::config('debug_toolbar.skip_configs') === true)
-			return array();
-		
-		// paths to application and system config
-		$paths = array(
-			APPPATH.'config/', 
-			SYSPATH.'config/'
-		);
-		
-		// paths to module config
-		foreach ((array)Kohana::config('core.modules') as $modpath)
-		{
-			if (is_dir("$modpath/config/"))
-			{
-				$paths[] = "$modpath/config/";
-			}
-		}
-		
-		$configuration = array();
-		
-		// load and merge configs in each path
-		foreach ($paths as $path) 
-		{
-			if ($handle = opendir($path)) 
-			{
-				// read all files in config dir
-				while (($file = readdir($handle)) !== false) 
-				{
-					// remove file extension from file name
-					$filename = self::_strip_ext($file);
-					
-					// filter skip configs
-					if (in_array($filename, (array)Kohana::config('debug_toolbar.skip_configs')))
-					{
-						continue;
-					}
-					
-					// let Kohana find full path to file
-					if ($files = Kohana::find_file('config', $filename))
-					{
-						foreach ($files as $file)
-						{
-							require $file;
-							if (isset($config) AND is_array($config))
-							{
-								$configuration[$filename] = isset($configuration[$filename]) ? array_merge($configuration[$filename], $config) : $config;
-							}
-							$config = array();
-						}
-					}
-				}
-			}
-		}
-		return $configuration;
-	}
-	*/
-	
-	/*
-	 * Config is only directly accessible from inside
-	 * the Kohana core class.  So, unfortunately, I have
-	 * to go through and load every config file manually. 
-	 * This is pretty inneficient but I can't think of a way
-	 * around it.
+	 * Get config data
 	 */
 	private static function configs() 
 	{	
