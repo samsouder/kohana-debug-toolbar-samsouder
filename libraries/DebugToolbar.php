@@ -69,7 +69,14 @@ class DebugToolbar_Core {
 		}
 		else
 		{
-			$template->render($print);
+			if ($print)
+			{
+				$template->render(TRUE);
+			}
+			else
+			{
+				return $template->render();
+			}
 		}
 	}
 	
