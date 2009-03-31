@@ -43,3 +43,8 @@ $config['panels'] = array(
  * options: right, left, center
  */
 $config['align'] = 'right';
+
+/*
+ * Secret Key
+ */ 
+$config['secret_key'] = FALSE;

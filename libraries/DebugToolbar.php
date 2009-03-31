@@ -51,15 +51,20 @@ class DebugToolbar_Core {
 		if (Kohana::config('debug_toolbar.panels.benchmarks'))
 			$template->set('benchmarks', self::benchmarks());
 		
-		if (Event::$data and Kohana::config('debug_toolbar.auto_render'))
-		{			
-			if (stripos(Event::$data, '</body>') !== FALSE)
+		if (Event::$data)
+		{
+			if (Kohana::config('debug_toolbar.auto_render') or
+					(Kohana::config('debug_toolbar.secret_key') !== FALSE and 
+						isset($_GET[Kohana::config('debug_toolbar.secret_key')])))
 			{
-				Event::$data = str_ireplace('</body>', $template->render().'</body>', Event::$data);
-			}
-			else
-			{
-				Event::$data .= $template->render();
+				if (stripos(Event::$data, '</body>') !== FALSE)
+				{
+					Event::$data = str_ireplace('</body>', $template->render().'</body>', Event::$data);
+				}
+				else
+				{
+					Event::$data .= $template->render();
+				}
 			}
 		}
 		else

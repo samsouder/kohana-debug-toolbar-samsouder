@@ -122,7 +122,7 @@
 	<!-- database -->
 	<?php if (Kohana::config('debug_toolbar.panels.database')): ?>
 		<div id="debug-database" class="top" style="display: none;">
-			<h1>SQL  queries</h1>
+			<h1>SQL Queries</h1>
 			<table cellspacing="0" cellpadding="0">
 				<tr align="left">
 					<th>#</th>
@@ -156,7 +156,7 @@
 	<!-- vars and config -->
 	<?php if (Kohana::config('debug_toolbar.panels.vars_and_config')): ?>
 		<div id="debug-vars" class="top" style="display: none;">
-			<h1>vars &amp; config</h1>
+			<h1>Vars &amp; Config</h1>
 			<ul class="varmenu">
 				<li onclick="debugToolbar.showvar(this, 'vars-post'); return false;">POST</li>
 				<li onclick="debugToolbar.showvar(this, 'vars-get'); return false;">GET</li>
@@ -198,7 +198,7 @@
 	<!-- logs and messages -->
 	<?php if (Kohana::config('debug_toolbar.panels.logs')): ?>
 		<div id="debug-log" class="top" style="display: none;">
-			<h1>logs &amp; msgs</h1>
+			<h1>Logs</h1>
 			<table cellspacing="0" cellpadding="0">
 				<tr align="left">
 					<th width="1%">#</th>
@@ -221,7 +221,7 @@
 	<!-- ajax -->
 	<?php if (Kohana::config('debug_toolbar.panels.ajax')): ?>
 		<div id="debug-ajax" class="top" style="display:none;">
-			<h1>ajax</h1>
+			<h1>Ajax</h1>
 			<table cellspacing="0" cellpadding="0">
 				<tr align="left">
 					<th width="1%">#</th>
@@ -236,7 +236,7 @@
 	<!-- files -->
 	<?php if (Kohana::config('debug_toolbar.panels.files')): ?>
 		<div id="debug-files" class="top" style="display: none;">
-			<h1>files</h1>
+			<h1>Files</h1>
 			<table cellspacing="0" cellpadding="0">
 				<tr align="left">
 					<th>#</th>
