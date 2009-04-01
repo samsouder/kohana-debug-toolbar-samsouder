@@ -29,21 +29,16 @@ class DebugToolbar_Core {
 		if (Kohana::config('debug_toolbar.firephp_enabled'))
 			self::firephp();
 		
-		$align = '';
 		switch (Kohana::config('debug_toolbar.align'))
 		{
 			case 'right':
-				$align = 'right: 0';
-				break;
 			case 'center':
-				$align = '';
+				$template->set('align', Kohana::config('debug_toolbar.align'));
 				break;
 			default:
-				$align = 'left: 0';		
+				$template->set('align', 'left');				
 		}
-		$template->set('align', $align);
 		
-		$template->set('styles', file_get_contents(Kohana::find_file('views', 'toolbar', false, 'css')));
 		$template->set('scripts', file_get_contents(Kohana::find_file('views', 'toolbar', true, 'js')));
 		
 		Benchmark::stop(self::$benchmark_name);
@@ -57,26 +52,27 @@ class DebugToolbar_Core {
 					(Kohana::config('debug_toolbar.secret_key') !== FALSE and 
 						isset($_GET[Kohana::config('debug_toolbar.secret_key')])))
 			{
-				if (stripos(Event::$data, '</body>') !== FALSE)
-				{
-					Event::$data = str_ireplace('</body>', $template->render().'</body>', Event::$data);
-				}
+				// try to add css to <head>, otherwise, send to template
+				$styles = file_get_contents(Kohana::find_file('views', 'toolbar', false, 'css'));
+				if (stripos(Event::$data, '</head>') !== FALSE)
+					Event::$data = str_ireplace('</head>', $styles.'</head>', Event::$data);
 				else
-				{
+					$template->set('styles', $styles);
+				
+				// try to add js and HTML just before the </body> tag,
+				// otherwise just append it to the output
+				if (stripos(Event::$data, '</body>') !== FALSE)
+					Event::$data = str_ireplace('</body>', $template->render().'</body>', Event::$data);
+				else
 					Event::$data .= $template->render();
-				}
 			}
 		}
 		else
 		{
 			if ($print)
-			{
 				$template->render(TRUE);
-			}
 			else
-			{
 				return $template->render();
-			}
 		}
 	}
 	

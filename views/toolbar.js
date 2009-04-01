@@ -67,16 +67,17 @@ var debugToolbar = {
 	
 	swap: function() {
 		var toolbar = document.getElementById('debug-toolbar');
-		if (toolbar.style.right) {
-			toolbar.style.left = '0px';
-			toolbar.style.right = null;
-		} else if (toolbar.style.left) {
-			toolbar.style.left = null;
-			toolbar.style.right = null;
+		if (toolbar.className == 'debug-toolbar-align-center') {
+			toolbar.className = 'debug-toolbar-align-left';
+		} else if (toolbar.className == 'debug-toolbar-align-left') {
+			toolbar.className = 'debug-toolbar-align-right';
 		} else {
-			toolbar.style.left = null;
-			toolbar.style.right = '0px';
+			toolbar.className = 'debug-toolbar-align-center';
 		}
+	},
+	
+	collapse: function() {
+		debugToolbar.toggle('debug-toolbar-menu');
 	}
 
 };
