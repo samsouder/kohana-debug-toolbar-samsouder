@@ -3,7 +3,7 @@
 /*
  * Disable auto render when IN_PRODUCTION is true
  */
-if (!IN_PRODUCTION) 
+if (!IN_PRODUCTION or Kohana::config('debug_toolbar.secret_key') !== FALSE) 
 {
 	/*
 	 * Allows the debug toolbar to inject itsself 

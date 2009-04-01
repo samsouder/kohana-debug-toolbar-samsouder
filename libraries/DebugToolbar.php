@@ -33,6 +33,7 @@ class DebugToolbar_Core {
 		{
 			case 'right':
 			case 'center':
+			case 'left':
 				$template->set('align', Kohana::config('debug_toolbar.align'));
 				break;
 			default:
