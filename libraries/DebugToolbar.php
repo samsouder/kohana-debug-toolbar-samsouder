@@ -1,5 +1,40 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
+/*
+ * Copyright (c) 2009 Aaron Forsander <aaron.forsander@gmail.com>
+ * 
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ * 
+*/
+
+/**
+ * Displays a debug toolbar at the top of the rendered web page.
+ * 
+ * For more information see: http://projects.kohanaphp.com/projects/show/kohana-debug-toolbar
+ * 
+ * @copyright   Copyright (C) 2009 Aaron Forsander
+ * @author      Aaron Forsander <aaron.forsander@gmail.com>
+ * @package     DebugToolbar
+ */
 class DebugToolbar_Core {
 
 	// system.log events
@@ -100,7 +135,7 @@ class DebugToolbar_Core {
 	public static function benchmarks()
 	{
 		$benchmarks = array();
-		foreach (Benchmark::get(true) as $name => $benchmark)
+		foreach (Benchmark::get(TRUE) as $name => $benchmark)
 		{
 			$benchmarks[$name] = array(
 				'name'   => ucwords(str_replace(array('_', '-'), ' ', str_replace(SYSTEM_BENCHMARK.'_', '', $name))),
@@ -117,7 +152,7 @@ class DebugToolbar_Core {
 	 */
 	private static function firephp()
 	{
-		$firephp = FirePHP::getInstance(true);
+		$firephp = FirePHP::getInstance(TRUE);
 		
 		$firephp->fb('KOHANA DEBUG TOOLBAR:');
 		
@@ -174,7 +209,8 @@ class DebugToolbar_Core {
 		
 		$firephp->fb(
 			array(
-				'Queries: ' . count($queries).' SQL queries took '.number_format($total_time,3).' seconds and returned '.$total_rows.' rows',
+				'Queries: '.count($queries).' SQL queries took '.
+					number_format($total_time,3).' seconds and returned '.$total_rows.' rows',
 				$table
 			),
 			FirePHP::TABLE
@@ -201,7 +237,9 @@ class DebugToolbar_Core {
 		
 		$firephp->fb(
 			array(
-				'Benchmarks: ' . count($benchmarks).' benchmarks took '.number_format($benchmark['time'], 3).' seconds and used up '. number_format($benchmark['memory'] / 1024 / 1024, 2).'MB'.' memory',
+				'Benchmarks: '.count($benchmarks).' benchmarks took '.
+					number_format($benchmark['time'], 3).' seconds and used up '.
+					number_format($benchmark['memory'] / 1024 / 1024, 2).'MB'.' memory',
 				$table
 			),
 			FirePHP::TABLE
@@ -223,6 +261,7 @@ class DebugToolbar_Core {
 			foreach (glob($inc_path.'/config/*.php') as $filename) 
 			{
 				$filename = pathinfo($filename, PATHINFO_FILENAME);
+				
 				if (in_array($filename, (array)Kohana::config('debug_toolbar.skip_configs')))
 					continue;
 				
@@ -240,19 +279,11 @@ class DebugToolbar_Core {
 	{
 		return get_included_files();
 	}
-
 	
 	// return a filename without extension
 	private static function _strip_ext($filename)
 	{
-		if (($pos = strrpos($filename, '.')) !== false)
-		{
-			return substr($filename, 0, $pos);
-		}
-		else
-		{
-			return $filename;
-		}
+		return (($pos = strrpos($filename, '.')) !== FALSE) ? substr($filename, 0, $pos) : $filename;
 	}
 
 }
