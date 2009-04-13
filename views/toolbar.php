@@ -241,6 +241,7 @@
 	
 	<!-- files -->
 	<?php if (Kohana::config('debug_toolbar.panels.files')): ?>
+		<?php $total_size = $total_lines = 0 ?>
 		<div id="debug-files" class="top" style="display: none;">
 			<h1>Files</h1>
 			<table cellspacing="0" cellpadding="0">
@@ -251,13 +252,26 @@
 					<th>lines</th>
 				</tr>
 				<?php foreach ((array)$files as $id => $file): ?>
+					<?php
+					$size = filesize($file);
+					$lines = count(file($file));
+					?>
 					<tr class="<?php echo text::alternate('odd','even')?>">
 						<td><?php echo $id + 1 ?></td>
 						<td><?php echo $file ?></td>
-						<td><?php echo filesize($file) ?></td>
-						<td><?php echo count(file($file)) ?></td>
+						<td><?php echo $size ?></td>
+						<td><?php echo $lines ?></td>
 					</tr>
+					<?php
+					$total_size += $size;
+					$total_lines += $lines;
+					?>
 				<?php endforeach; ?>
+				<tr align="left">
+					<th colspan="2">total</th>
+					<th><?php echo text::bytes($total_size) ?></th>
+					<th><?php echo number_format($total_lines) ?></th>
+				</tr>
 			</table>
 		</div>
 	<?php endif ?>

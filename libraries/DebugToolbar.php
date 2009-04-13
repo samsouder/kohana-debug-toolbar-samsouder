@@ -75,7 +75,7 @@ class DebugToolbar_Core {
 				$template->set('align', 'left');				
 		}
 		
-		$template->set('scripts', file_get_contents(Kohana::find_file('views', 'toolbar', true, 'js')));
+		$template->set('scripts', file_get_contents(Kohana::find_file('views', 'toolbar', TRUE, 'js')));
 		
 		Benchmark::stop(self::$benchmark_name);
 		
@@ -89,7 +89,7 @@ class DebugToolbar_Core {
 						isset($_GET[Kohana::config('debug_toolbar.secret_key')])))
 			{
 				// try to add css to <head>, otherwise, send to template
-				$styles = file_get_contents(Kohana::find_file('views', 'toolbar', false, 'css'));
+				$styles = file_get_contents(Kohana::find_file('views', 'toolbar', FALSE, 'css'));
 				if (stripos(Event::$data, '</head>') !== FALSE)
 					Event::$data = str_ireplace('</head>', $styles.'</head>', Event::$data);
 				else
