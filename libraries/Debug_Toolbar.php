@@ -33,7 +33,7 @@
  * 
  * @copyright   Copyright (C) 2009 Aaron Forsander
  * @author      Aaron Forsander <aaron.forsander@gmail.com>
- * @package     DebugToolbar
+ * @package     Debug_Toolbar_Core
  */
 class Debug_Toolbar_Core {
 
@@ -58,25 +58,25 @@ class Debug_Toolbar_Core {
 		// Database panel
 		if (Kohana::config('debug_toolbar.panels.database'))
 		{
-			$template->set('queries', self::queries());
+			$template->set('queries', self::get_queries());
 		}
 		
 		// Logs panel
 		if (Kohana::config('debug_toolbar.panels.logs'))
 		{
-			$template->set('logs', self::logs());
+			$template->set('logs', self::get_logs());
 		}
 		
 		// Vars and Config panel
 		if (Kohana::config('debug_toolbar.panels.vars_and_config'))
 		{
-			$template->set('configs', self::configs());
+			$template->set('configs', self::get_configs());
 		}
 		
 		// Files panel
 		if (Kohana::config('debug_toolbar.panels.files'))
 		{
-			$template->set('files', self::files());
+			$template->set('files', self::get_files());
 		}
 		
 		// FirePHP
@@ -97,7 +97,7 @@ class Debug_Toolbar_Core {
 				$template->set('align', 'left');				
 		}
 		
-		// javascript for toolbar
+		// Javascript for toolbar
 		$template->set('scripts', file_get_contents(Kohana::find_file('views', 'toolbar', TRUE, 'js')));
 		
 		Benchmark::stop(self::$benchmark_name);
@@ -105,15 +105,15 @@ class Debug_Toolbar_Core {
 		// Benchmarks panel
 		if (Kohana::config('debug_toolbar.panels.benchmarks'))
 		{
-			$template->set('benchmarks', self::benchmarks());
+			$template->set('benchmarks', self::get_benchmarks());
 		}
 		
-		if (Kohana::config('debug_toolbar.auto_render') or
-				(Kohana::config('debug_toolbar.secret_key') !== FALSE and 
-					isset($_GET[Kohana::config('debug_toolbar.secret_key')])))
+		if (Event::$data and self::enabled())
 		{
-			// try to add css just before the </head> tag
+			// CSS for toolbar
 			$styles = file_get_contents(Kohana::find_file('views', 'toolbar', FALSE, 'css'));
+			
+			// Try to add css just before the </head> tag
 			if (stripos(Event::$data, '</head>') !== FALSE)
 			{
 				Event::$data = str_ireplace('</head>', $styles.'</head>', Event::$data);
@@ -137,7 +137,13 @@ class Debug_Toolbar_Core {
 		}
 		else
 		{
-			return $template->render($print);
+			if ($print === TRUE)
+			{
+				echo $template->render();
+				return;
+			}
+			
+			return $template->render();
 		}
 	}
 	
@@ -152,7 +158,7 @@ class Debug_Toolbar_Core {
 	/**
 	 * Retrieves all Kohana logs captured by system.log
 	 */
-	public static function logs()
+	public static function get_logs()
 	{
 		return self::$logs;
 	}
@@ -160,7 +166,7 @@ class Debug_Toolbar_Core {
 	/**
 	 * Retrieves query benchmarks from Database
 	 */
-	public static function queries()
+	public static function get_queries()
 	{
 		return Database::$benchmarks;
 	}
@@ -170,7 +176,7 @@ class Debug_Toolbar_Core {
 	 *
 	 * @return array formatted benchmarks
 	 */
-	public static function benchmarks()
+	public static function get_benchmarks()
 	{
 		$benchmarks = array();
 		foreach (Benchmark::get(TRUE) as $name => $benchmark)
@@ -191,11 +197,9 @@ class Debug_Toolbar_Core {
 	private static function firephp()
 	{
 		$firephp = FirePHP::getInstance(TRUE);
-		
 		$firephp->fb('KOHANA DEBUG TOOLBAR:');
 		
-		// globals
-		
+		// Globals
 		$globals = array(
 			'Post'    => empty($_POST)    ? array() : $_POST,
 			'Get'     => empty($_GET)     ? array() : $_GET,
@@ -211,23 +215,20 @@ class Debug_Toolbar_Core {
 			foreach($global as $key => $value)
 			{
 				if (is_object($value))
+				{
 					$value = get_class($value).' [object]';
+				}
 					
 				$table[] = array($key, $value);
 			}
 			
-			$firephp->fb(
-				array(
-					"$name: ".count($global).' variables',
-					$table
-				),
-				FirePHP::TABLE
-			);
+			$message = "$name: ".count($global).' variables';
+
+			$firephp->fb(array($message, $table), FirePHP::TABLE);
 		}
 		
-		// database
-		
-		$queries = self::queries();
+		// Database
+		$queries = self::get_queries();
 		
 		$total_time = $total_rows = 0;
 		$table = array();
@@ -245,43 +246,31 @@ class Debug_Toolbar_Core {
 			$total_rows += $query['rows'];
 		}
 		
-		$firephp->fb(
-			array(
-				'Queries: '.count($queries).' SQL queries took '.
-					number_format($total_time,3).' seconds and returned '.$total_rows.' rows',
-				$table
-			),
-			FirePHP::TABLE
-		);
+		$message = 'Queries: '.count($queries).' SQL queries took '.
+			number_format($total_time,3).' seconds and returned '.$total_rows.' rows';
 		
-		// benchmarks
+		$firephp->fb(array($message, $table), FirePHP::TABLE);
 		
-		$benchmarks = self::benchmarks();
+		// Benchmarks
+		$benchmarks = self::get_benchmarks();
 		
 		$table = array();
 		$table[] = array('Benchmark','Time','Memory');
 		
 		foreach ($benchmarks as $name => $benchmark)
-		{
-			// Clean unique id from system benchmark names
-			$name = ucwords(str_replace(array('_', '-'), ' ', str_replace(SYSTEM_BENCHMARK.'_', '', $name)));
-			
+		{			
 			$table[] = array(
-				$name, 
+				ucwords(str_replace(array('_', '-'), ' ', str_replace(SYSTEM_BENCHMARK.'_', '', $name))), 
 				number_format($benchmark['time'], 3), 
-				number_format($benchmark['memory'] / 1024 / 1024, 2).'MB'
+				text::bytes($benchmark['memory'])
 			);
 		}
 		
-		$firephp->fb(
-			array(
-				'Benchmarks: '.count($benchmarks).' benchmarks took '.
-					number_format($benchmark['time'], 3).' seconds and used up '.
-					number_format($benchmark['memory'] / 1024 / 1024, 2).'MB'.' memory',
-				$table
-			),
-			FirePHP::TABLE
-		); 
+		$message = 'Benchmarks: '.count($benchmarks).' benchmarks took '.
+			number_format($benchmark['time'], 3).' seconds and used up '.
+			text::bytes($benchmark['memory']).' memory';
+		
+		$firephp->fb(array($message, $table), FirePHP::TABLE); 
 	}
 	
 	/**
@@ -289,7 +278,7 @@ class Debug_Toolbar_Core {
 	 *
 	 * @return array all configs included by Kohana
 	 */
-	private static function configs() 
+	private static function get_configs() 
 	{	
 		if (Kohana::config('debug_toolbar.skip_configs') === TRUE)
 			return array();
@@ -320,7 +309,7 @@ class Debug_Toolbar_Core {
 	 *
 	 * @return array file currently included by php
 	 */
-	public static function files()
+	public static function get_files()
 	{
 		return get_included_files();
 	}

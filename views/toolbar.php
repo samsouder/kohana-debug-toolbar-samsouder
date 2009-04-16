@@ -1,16 +1,18 @@
 <?php defined('SYSPATH') or die('No direct script access.') ?>
 
+<!-- CSS styles (if not added to <head>) -->
 <?php if (isset($styles)): ?>
 	<?php echo $styles ?>
 <?php endif ?>
 
+<!-- Javascript -->
 <script type="text/javascript">
 <?php echo $scripts ?>
 </script>
 
 <div id="kohana-debug-toolbar">
 
-	<!-- toolbar -->
+	<!-- Toolbar -->
 	<div id="debug-toolbar" class="debug-toolbar-align-<?php echo $align ?>">
 	
 		<!-- Kohana link -->
@@ -98,7 +100,7 @@
 		</ul>
 	</div>
 	
-	<!-- benchmarks -->
+	<!-- Benchmarks -->
 	<?php if (Kohana::config('debug_toolbar.panels.benchmarks')): ?>
 		<div id="debug-benchmarks" class="top" style="display: none;">
 			<h1>Benchmarks</h1>
@@ -125,7 +127,7 @@
 		</div>
 	<?php endif ?>
 	
-	<!-- database -->
+	<!-- Database -->
 	<?php if (Kohana::config('debug_toolbar.panels.database')): ?>
 		<div id="debug-database" class="top" style="display: none;">
 			<h1>SQL Queries</h1>
@@ -159,7 +161,7 @@
 		</div>
 	<?php endif ?>
 	
-	<!-- vars and config -->
+	<!-- Vars and Config -->
 	<?php if (Kohana::config('debug_toolbar.panels.vars_and_config')): ?>
 		<div id="debug-vars" class="top" style="display: none;">
 			<h1>Vars &amp; Config</h1>
@@ -201,7 +203,7 @@
 		</div>
 	<?php endif ?>
 	
-	<!-- logs and messages -->
+	<!-- Logs and Messages -->
 	<?php if (Kohana::config('debug_toolbar.panels.logs')): ?>
 		<div id="debug-log" class="top" style="display: none;">
 			<h1>Logs</h1>
@@ -224,7 +226,7 @@
 		</div>
 	<?php endif ?>
 	
-	<!-- ajax -->
+	<!-- Ajax Requests -->
 	<?php if (Kohana::config('debug_toolbar.panels.ajax')): ?>
 		<div id="debug-ajax" class="top" style="display:none;">
 			<h1>Ajax</h1>
@@ -239,7 +241,7 @@
 		</div>
 	<?php endif ?>
 	
-	<!-- files -->
+	<!-- Included Files -->
 	<?php if (Kohana::config('debug_toolbar.panels.files')): ?>
 		<div id="debug-files" class="top" style="display: none;">
 			<h1>Files</h1>
