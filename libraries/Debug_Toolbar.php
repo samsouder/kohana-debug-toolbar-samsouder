@@ -261,7 +261,7 @@ class Debug_Toolbar_Core {
 		{			
 			$table[] = array(
 				ucwords(str_replace(array('_', '-'), ' ', str_replace(SYSTEM_BENCHMARK.'_', '', $name))), 
-				number_format($benchmark['time'], 3), 
+				number_format($benchmark['time'], 3). ' s', 
 				text::bytes($benchmark['memory'])
 			);
 		}
