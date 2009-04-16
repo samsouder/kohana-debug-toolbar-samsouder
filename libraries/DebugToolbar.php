@@ -45,6 +45,10 @@ class DebugToolbar_Core {
 	// show the toolbar
 	public static function render($print = false) 
 	{
+		// otherwise (thanks kiall) KDT chokes on 404s
+		if (!Router::$controller)
+			return;
+		
 		Benchmark::start(self::$benchmark_name);
 		
 		$template = new View('toolbar');

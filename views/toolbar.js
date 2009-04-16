@@ -25,8 +25,8 @@ var debugToolbar = {
 	showvar : function(li, obj) {
 		if (obj == debugToolbar.currentvar) {
 			debugToolbar.off(obj);
-			debugToolbar.currentli = null;
 			debugToolbar.currentli.className = '';
+			debugToolbar.currentli = null;
 			debugToolbar.currentvar = null;
 		} else {
 			debugToolbar.off(debugToolbar.currentvar);
