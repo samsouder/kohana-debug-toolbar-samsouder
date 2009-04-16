@@ -18,15 +18,13 @@
 			Kohana::config('debug_toolbar.icon_path').'/kohana.png',
 			array('onclick' => 'debugToolbar.collapse()')
 		) ?>
-		<!--
-		<?php echo html::anchor(
-			"http://kohanaphp.com/home", 
-			html::image(Kohana::config('debug_toolbar.icon_path').'/kohana.png'), 
-			array('target' => '_blank', 'alt' => 'Kohana')
-		) ?>
-		-->
 		
-		<ul id="debug-toolbar-menu" class="menu">
+		<!-- Kohana icon -->
+		<?php if (Kohana::config('debug_toolbar.minimized') === TRUE): ?>
+			<ul id="debug-toolbar-menu" class="menu" style="display: none">
+		<?php else: ?>
+			<ul id="debug-toolbar-menu" class="menu">
+		<?php endif ?>
 			
 			<!-- Kohana version -->
 			<li>
@@ -35,10 +33,12 @@
 			
 			<!-- Benchmarks -->
 			<?php if (Kohana::config('debug_toolbar.panels.benchmarks')): ?>
+				<!-- Time -->
 				<li id="time" onclick="debugToolbar.show('debug-benchmarks'); return false;">
 					<?php echo html::image(Kohana::config('debug_toolbar.icon_path').'/time.png', array('alt' => 'time')) ?>
 					<?php echo round(($benchmarks['system_benchmark_total_execution']['time'])*1000, 2) ?> ms
 				</li>
+				<!-- Memory -->
 				<li id="memory" onclick="debugToolbar.show('debug-benchmarks'); return false;">
 					<?php echo html::image(Kohana::config('debug_toolbar.icon_path').'/memory.png', array('alt' => 'memory')) ?>
 					<?php echo text::bytes($benchmarks['system_benchmark_total_execution']['memory']) ?>
@@ -241,7 +241,6 @@
 	
 	<!-- files -->
 	<?php if (Kohana::config('debug_toolbar.panels.files')): ?>
-		<?php $total_size = $total_lines = 0 ?>
 		<div id="debug-files" class="top" style="display: none;">
 			<h1>Files</h1>
 			<table cellspacing="0" cellpadding="0">
@@ -251,6 +250,7 @@
 					<th>size</th>
 					<th>lines</th>
 				</tr>
+				<?php $total_size = $total_lines = 0 ?>
 				<?php foreach ((array)$files as $id => $file): ?>
 					<?php
 					$size = filesize($file);
@@ -275,6 +275,5 @@
 			</table>
 		</div>
 	<?php endif ?>
-
 
 </div>

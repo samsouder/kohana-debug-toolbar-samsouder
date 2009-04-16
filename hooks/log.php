@@ -2,5 +2,5 @@
 /*
  * Capture logs
  */
-Event::add('system.log', array('DebugToolbar', 'log'));
+Event::add('system.log', array('Debug_Toolbar', 'log'));
 ?>

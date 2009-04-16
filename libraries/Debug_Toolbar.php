@@ -35,39 +35,57 @@
  * @author      Aaron Forsander <aaron.forsander@gmail.com>
  * @package     DebugToolbar
  */
-class DebugToolbar_Core {
+class Debug_Toolbar_Core {
 
-	// system.log events
+	// Stores system.log events
 	public static $logs = array();
 	
+	// Name for debug toolbar's benchmark
 	public static $benchmark_name = 'debug_toolbar';
 	
-	// show the toolbar
+	/**
+	 * Renders the Debug Toolbar
+	 *
+	 * @param bool print rendered output
+	 * @return string debug toolbar rendered output
+	 */
 	public static function render($print = false) 
 	{
-		// otherwise (thanks kiall) KDT chokes on 404s
-		if (!Router::$controller)
-			return;
-		
 		Benchmark::start(self::$benchmark_name);
 		
 		$template = new View('toolbar');
 		
+		// Database panel
 		if (Kohana::config('debug_toolbar.panels.database'))
+		{
 			$template->set('queries', self::queries());
-			
+		}
+		
+		// Logs panel
 		if (Kohana::config('debug_toolbar.panels.logs'))
+		{
 			$template->set('logs', self::logs());
-			
+		}
+		
+		// Vars and Config panel
 		if (Kohana::config('debug_toolbar.panels.vars_and_config'))
+		{
 			$template->set('configs', self::configs());
+		}
 		
+		// Files panel
 		if (Kohana::config('debug_toolbar.panels.files'))
+		{
 			$template->set('files', self::files());
+		}
 		
+		// FirePHP
 		if (Kohana::config('debug_toolbar.firephp_enabled'))
+		{
 			self::firephp();
+		}
 		
+		// Set alignment for toolbar
 		switch (Kohana::config('debug_toolbar.align'))
 		{
 			case 'right':
@@ -79,63 +97,79 @@ class DebugToolbar_Core {
 				$template->set('align', 'left');				
 		}
 		
+		// javascript for toolbar
 		$template->set('scripts', file_get_contents(Kohana::find_file('views', 'toolbar', TRUE, 'js')));
 		
 		Benchmark::stop(self::$benchmark_name);
 		
+		// Benchmarks panel
 		if (Kohana::config('debug_toolbar.panels.benchmarks'))
-			$template->set('benchmarks', self::benchmarks());
-		
-		if (Event::$data)
 		{
-			if (Kohana::config('debug_toolbar.auto_render') or
-					(Kohana::config('debug_toolbar.secret_key') !== FALSE and 
-						isset($_GET[Kohana::config('debug_toolbar.secret_key')])))
+			$template->set('benchmarks', self::benchmarks());
+		}
+		
+		if (Kohana::config('debug_toolbar.auto_render') or
+				(Kohana::config('debug_toolbar.secret_key') !== FALSE and 
+					isset($_GET[Kohana::config('debug_toolbar.secret_key')])))
+		{
+			// try to add css just before the </head> tag
+			$styles = file_get_contents(Kohana::find_file('views', 'toolbar', FALSE, 'css'));
+			if (stripos(Event::$data, '</head>') !== FALSE)
 			{
-				// try to add css to <head>, otherwise, send to template
-				$styles = file_get_contents(Kohana::find_file('views', 'toolbar', FALSE, 'css'));
-				if (stripos(Event::$data, '</head>') !== FALSE)
-					Event::$data = str_ireplace('</head>', $styles.'</head>', Event::$data);
-				else
-					$template->set('styles', $styles);
-				
-				// try to add js and HTML just before the </body> tag,
-				// otherwise just append it to the output
-				if (stripos(Event::$data, '</body>') !== FALSE)
-					Event::$data = str_ireplace('</body>', $template->render().'</body>', Event::$data);
-				else
-					Event::$data .= $template->render();
+				Event::$data = str_ireplace('</head>', $styles.'</head>', Event::$data);
+			}
+			else
+			{
+				// No </head> tag found, append styles to output
+				$template->set('styles', $styles);
+			}
+			
+			// Try to add js and HTML just before the </body> tag
+			if (stripos(Event::$data, '</body>') !== FALSE)
+			{
+				Event::$data = str_ireplace('</body>', $template->render().'</body>', Event::$data);
+			}
+			else
+			{
+				// Closing <body> tag not found, just append toolbar to output
+				Event::$data .= $template->render();
 			}
 		}
 		else
 		{
-			if ($print)
-				$template->render(TRUE);
-			else
-				return $template->render();
+			return $template->render($print);
 		}
 	}
 	
-	/*
-	 * Hooks the system.log event to catch 
-	 * all log messages and save to 
-	 * self::$logs;
+	/**
+	 * Hooks the system.log event to catch all log messages 
 	 */
 	public static function log() 
 	{
 		self::$logs[] = Event::$data;
 	}
 	
+	/**
+	 * Retrieves all Kohana logs captured by system.log
+	 */
 	public static function logs()
 	{
 		return self::$logs;
 	}
 	
+	/**
+	 * Retrieves query benchmarks from Database
+	 */
 	public static function queries()
 	{
 		return Database::$benchmarks;
 	}
 	
+	/**
+	 * Creates a formatted array of all Benchmarks
+	 *
+	 * @return array formatted benchmarks
+	 */
 	public static function benchmarks()
 	{
 		$benchmarks = array();
@@ -151,7 +185,7 @@ class DebugToolbar_Core {
 		return $benchmarks;
 	}
 	
-	/*
+	/**
 	 * Add toolbar data to FirePHP console
 	 */
 	private static function firephp()
@@ -250,8 +284,10 @@ class DebugToolbar_Core {
 		); 
 	}
 	
-	/*
+	/**
 	 * Get config data
+	 *
+	 * @return array all configs included by Kohana
 	 */
 	private static function configs() 
 	{	
@@ -260,6 +296,7 @@ class DebugToolbar_Core {
 		
 		$inc_paths = Kohana::include_paths();
 		$configs = array();
+		
 		foreach ($inc_paths as $inc_path)
 		{
 			foreach (glob($inc_path.'/config/*.php') as $filename) 
@@ -270,24 +307,46 @@ class DebugToolbar_Core {
 					continue;
 				
 				if (!isset($configs[$filename]))
+				{
 					$configs[$filename] = Kohana::Config($filename);
+				}
 			}
 		}
 		return $configs;
 	}
 	
-	/*
+	/**
 	 * Get list of included files
+	 *
+	 * @return array file currently included by php
 	 */
 	public static function files()
 	{
 		return get_included_files();
 	}
 	
-	// return a filename without extension
-	private static function _strip_ext($filename)
+	/**
+	 * Determines if all the conditions are correct to display the toolbar
+	 * (pretty kludgy, I know)
+	 *
+	 * @returns bool toolbar enabled
+	 */
+	public static function enabled()
 	{
-		return (($pos = strrpos($filename, '.')) !== FALSE) ? substr($filename, 0, $pos) : $filename;
+		return (bool) ((!request::is_ajax() and !IN_PRODUCTION) or 
+			(Kohana::config('debug_toolbar.secret_key') !== FALSE and 
+				isset($_GET[Kohana::config('debug_toolbar.secret_key')])));
+	}
+	
+	/**
+	 * Return a filename without extension
+	 *
+	 * @param string name of a file
+	 * @return string name of file with extension removed
+	 */
+	private static function _strip_ext($file)
+	{
+		return (($pos = strrpos($file, '.')) !== FALSE) ? substr($file, 0, $pos) : $file;
 	}
 
 }

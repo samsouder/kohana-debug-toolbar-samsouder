@@ -102,7 +102,6 @@ div#kohana-debug-toolbar th {
 div#kohana-debug-toolbar div#debug-toolbar {
 	position: fixed;
 	padding: 0 0 3px 0;
-	/*right: 0px;*/
 	top: 0px;
 	opacity: 0.80;
 	filter: alpha(opacity:80);
