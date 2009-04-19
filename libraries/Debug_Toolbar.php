@@ -56,31 +56,31 @@ class Debug_Toolbar_Core {
 		$template = new View('toolbar');
 		
 		// Database panel
-		if (Kohana::config('debug_toolbar.panels.database'))
+		if (Kohana::config('debug_toolbar.panels.database') === TRUE)
 		{
 			$template->set('queries', self::get_queries());
 		}
 		
 		// Logs panel
-		if (Kohana::config('debug_toolbar.panels.logs'))
+		if (Kohana::config('debug_toolbar.panels.logs') === TRUE)
 		{
 			$template->set('logs', self::get_logs());
 		}
 		
 		// Vars and Config panel
-		if (Kohana::config('debug_toolbar.panels.vars_and_config'))
+		if (Kohana::config('debug_toolbar.panels.vars_and_config') === TRUE)
 		{
 			$template->set('configs', self::get_configs());
 		}
 		
 		// Files panel
-		if (Kohana::config('debug_toolbar.panels.files'))
+		if (Kohana::config('debug_toolbar.panels.files') === TRUE)
 		{
 			$template->set('files', self::get_files());
 		}
 		
 		// FirePHP
-		if (Kohana::config('debug_toolbar.firephp_enabled'))
+		if (Kohana::config('debug_toolbar.firephp_enabled') === TRUE)
 		{
 			self::firephp();
 		}
@@ -103,12 +103,12 @@ class Debug_Toolbar_Core {
 		Benchmark::stop(self::$benchmark_name);
 		
 		// Benchmarks panel
-		if (Kohana::config('debug_toolbar.panels.benchmarks'))
+		if (Kohana::config('debug_toolbar.panels.benchmarks') === TRUE)
 		{
 			$template->set('benchmarks', self::get_benchmarks());
 		}
 		
-		if (Event::$data and self::enabled())
+		if (Event::$data and self::is_enabled())
 		{
 			// CSS for toolbar
 			$styles = file_get_contents(Kohana::find_file('views', 'toolbar', FALSE, 'css'));
@@ -137,13 +137,7 @@ class Debug_Toolbar_Core {
 		}
 		else
 		{
-			if ($print === TRUE)
-			{
-				echo $template->render();
-				return;
-			}
-			
-			return $template->render();
+			return $template->render($print);
 		}
 	}
 	
@@ -179,7 +173,7 @@ class Debug_Toolbar_Core {
 	public static function get_benchmarks()
 	{
 		$benchmarks = array();
-		foreach (Benchmark::get(TRUE) as $name => $benchmark)
+		foreach ((array)Benchmark::get(TRUE) as $name => $benchmark)
 		{
 			$benchmarks[$name] = array(
 				'name'   => ucwords(str_replace(array('_', '-'), ' ', str_replace(SYSTEM_BENCHMARK.'_', '', $name))),
@@ -189,6 +183,49 @@ class Debug_Toolbar_Core {
 		}
 		$benchmarks = array_slice($benchmarks, 1) + array_slice($benchmarks, 0, 1);
 		return $benchmarks;
+	}
+	
+	/**
+	 * Get config data
+	 *
+	 * @return array all configs included by Kohana
+	 */
+	private static function get_configs() 
+	{	
+		if (Kohana::config('debug_toolbar.skip_configs') === TRUE)
+			return array();
+		
+		$inc_paths = Kohana::include_paths();
+		$configs = array();
+		
+		foreach ((array)$inc_paths as $inc_path)
+		{
+			foreach ((array)glob($inc_path.'/config/*.php') as $filename) 
+			{
+				$filename = pathinfo($filename, PATHINFO_FILENAME);
+				
+				if (in_array($filename, (array)Kohana::config('debug_toolbar.skip_configs')))
+					continue;
+				
+				if (!isset($configs[$filename]))
+				{
+					$configs[$filename] = Kohana::Config($filename);
+				}
+			}
+		}
+		return $configs;
+	}
+	
+	/**
+	 * Get list of included files
+	 *
+	 * @return array file currently included by php
+	 */
+	public static function get_files()
+	{
+		$files = (array)get_included_files();
+		sort($files);
+		return $files;
 	}
 	
 	/**
@@ -212,7 +249,7 @@ class Debug_Toolbar_Core {
 			$table = array();
 			$table[] = array($name,'Value');
 			
-			foreach($global as $key => $value)
+			foreach((array)$global as $key => $value)
 			{
 				if (is_object($value))
 				{
@@ -223,7 +260,7 @@ class Debug_Toolbar_Core {
 			}
 			
 			$message = "$name: ".count($global).' variables';
-
+			
 			$firephp->fb(array($message, $table), FirePHP::TABLE);
 		}
 		
@@ -234,7 +271,7 @@ class Debug_Toolbar_Core {
 		$table = array();
 		$table[] = array('SQL Statement','Time','Rows');
 		
-		foreach ($queries as $query)
+		foreach ((array)$queries as $query)
 		{
 			$table[] = array(
 				str_replace("\n",' ',$query['query']), 
@@ -247,7 +284,7 @@ class Debug_Toolbar_Core {
 		}
 		
 		$message = 'Queries: '.count($queries).' SQL queries took '.
-			number_format($total_time,3).' seconds and returned '.$total_rows.' rows';
+			number_format($total_time, 3).' seconds and returned '.$total_rows.' rows';
 		
 		$firephp->fb(array($message, $table), FirePHP::TABLE);
 		
@@ -255,9 +292,9 @@ class Debug_Toolbar_Core {
 		$benchmarks = self::get_benchmarks();
 		
 		$table = array();
-		$table[] = array('Benchmark','Time','Memory');
+		$table[] = array('Benchmark', 'Time', 'Memory');
 		
-		foreach ($benchmarks as $name => $benchmark)
+		foreach ((array)$benchmarks as $name => $benchmark)
 		{			
 			$table[] = array(
 				ucwords(str_replace(array('_', '-'), ' ', str_replace(SYSTEM_BENCHMARK.'_', '', $name))), 
@@ -274,57 +311,31 @@ class Debug_Toolbar_Core {
 	}
 	
 	/**
-	 * Get config data
-	 *
-	 * @return array all configs included by Kohana
-	 */
-	private static function get_configs() 
-	{	
-		if (Kohana::config('debug_toolbar.skip_configs') === TRUE)
-			return array();
-		
-		$inc_paths = Kohana::include_paths();
-		$configs = array();
-		
-		foreach ($inc_paths as $inc_path)
-		{
-			foreach (glob($inc_path.'/config/*.php') as $filename) 
-			{
-				$filename = pathinfo($filename, PATHINFO_FILENAME);
-				
-				if (in_array($filename, (array)Kohana::config('debug_toolbar.skip_configs')))
-					continue;
-				
-				if (!isset($configs[$filename]))
-				{
-					$configs[$filename] = Kohana::Config($filename);
-				}
-			}
-		}
-		return $configs;
-	}
-	
-	/**
-	 * Get list of included files
-	 *
-	 * @return array file currently included by php
-	 */
-	public static function get_files()
-	{
-		return get_included_files();
-	}
-	
-	/**
 	 * Determines if all the conditions are correct to display the toolbar
 	 * (pretty kludgy, I know)
 	 *
 	 * @returns bool toolbar enabled
 	 */
-	public static function enabled()
+	public static function is_enabled()
 	{
-		return (bool) ((!request::is_ajax() and !IN_PRODUCTION) or 
-			(Kohana::config('debug_toolbar.secret_key') !== FALSE and 
-				isset($_GET[Kohana::config('debug_toolbar.secret_key')])));
+		// Don't show toolbar for ajax requests
+		if (request::is_ajax())
+			return FALSE;
+		
+		if (isset($_GET['debug']) and strtolower($_GET['debug']) == 'false')
+			return FALSE;
+		
+		if (Kohana::config('debug_toolbar.auto_render') !== TRUE)
+			return FALSE;
+		
+		$secret_key = Kohana::config('debug_toolbar.secret_key');
+		if ($secret_key !== FALSE and isset($_GET[$secret_key]))
+			return TRUE;
+		
+		if (IN_PRODUCTION)
+			return FALSE;
+		
+		return TRUE;
 	}
 	
 	/**

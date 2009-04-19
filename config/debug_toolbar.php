@@ -10,7 +10,7 @@ $config['auto_render'] = TRUE;
 /* 
  * If true, the toolbar will default to the minimized position
  */
-$config['minimized'] = TRUE;
+$config['minimized'] = FALSE;
 
 /* 
  * Location of icon images
