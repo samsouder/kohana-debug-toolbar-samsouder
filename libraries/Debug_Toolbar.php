@@ -107,6 +107,9 @@ class Debug_Toolbar_Core {
 		// Javascript for toolbar
 		$template->set('scripts', file_get_contents(Kohana::find_file('views', 'toolbar', TRUE, 'js')));
 		
+		// CSS for toolbar
+		$styles = file_get_contents(Kohana::find_file('views', 'toolbar', FALSE, 'css'));
+		
 		Benchmark::stop(self::$benchmark_name);
 		
 		// Benchmarks panel
@@ -117,9 +120,6 @@ class Debug_Toolbar_Core {
 		
 		if (Event::$data and self::is_enabled())
 		{
-			// CSS for toolbar
-			$styles = file_get_contents(Kohana::find_file('views', 'toolbar', FALSE, 'css'));
-			
 			// Try to add css just before the </head> tag
 			if (stripos(Event::$data, '</head>') !== FALSE)
 			{
@@ -144,6 +144,8 @@ class Debug_Toolbar_Core {
 		}
 		else
 		{
+			$template->set('styles', $styles);
+			
 			return $template->render($print);
 		}
 	}
