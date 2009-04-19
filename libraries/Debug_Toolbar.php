@@ -318,20 +318,25 @@ class Debug_Toolbar_Core {
 	 */
 	public static function is_enabled()
 	{
-		// Don't show toolbar for ajax requests
+		// Don't auto render toolbar for ajax requests
 		if (request::is_ajax())
 			return FALSE;
 		
+		// Don't auto render toolbar if $_GET['debug'] = 'false'
 		if (isset($_GET['debug']) and strtolower($_GET['debug']) == 'false')
 			return FALSE;
 		
+		// Don't auto render if auto_render config is FALSE
 		if (Kohana::config('debug_toolbar.auto_render') !== TRUE)
 			return FALSE;
 		
+		// Auto render if secret key isset
 		$secret_key = Kohana::config('debug_toolbar.secret_key');
 		if ($secret_key !== FALSE and isset($_GET[$secret_key]))
 			return TRUE;
 		
+		// Don't auto render when IN_PRODUCTION (this can obviously be 
+		// overridden by the above secret key)
 		if (IN_PRODUCTION)
 			return FALSE;
 		
