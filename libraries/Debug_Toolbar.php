@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-/*
+/**
  * Copyright (c) 2009 Aaron Forsander <aaron.forsander@gmail.com>
  * 
  * Permission is hereby granted, free of charge, to any person
@@ -25,6 +25,13 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  * 
 */
+
+/**
+ * Icons taken from the wonderful work of Mark James.
+ *
+ * More information available at:
+ * http://www.famfamfam.com/lab/icons/silk/
+ */
 
 /**
  * Displays a debug toolbar at the top of the rendered web page.
