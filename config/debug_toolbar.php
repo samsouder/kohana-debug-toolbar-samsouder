@@ -52,4 +52,4 @@ $config['align'] = 'right';
 /*
  * Secret Key
  */ 
-$config['secret_key'] = 'roflcopter';
+$config['secret_key'] = FALSE;
