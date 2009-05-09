@@ -219,7 +219,7 @@
 						<td><?php echo $id + 1 ?></td>
 						<td><?php echo $log[0] ?></td>
 						<td><?php echo $log[1] ?></td>
-						<td><?php echo $log[2] ?></td>
+						<td><?php echo html::specialchars($log[2]) ?></td>
 					</tr>
 				<?php endforeach; ?>
 			</table>
