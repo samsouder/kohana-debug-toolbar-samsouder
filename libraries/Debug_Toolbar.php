@@ -86,12 +86,6 @@ class Debug_Toolbar_Core {
 			$template->set('files', self::get_files());
 		}
 		
-		// FirePHP
-		if (Kohana::config('debug_toolbar.firephp_enabled') === TRUE)
-		{
-			self::firephp();
-		}
-		
 		// Set alignment for toolbar
 		switch (Kohana::config('debug_toolbar.align'))
 		{
@@ -120,6 +114,12 @@ class Debug_Toolbar_Core {
 		
 		if (Event::$data and self::is_enabled())
 		{
+			// FirePHP
+			if (Kohana::config('debug_toolbar.firephp_enabled') === TRUE)
+			{
+				self::firephp();
+			}
+			
 			// Try to add css just before the </head> tag
 			if (stripos(Event::$data, '</head>') !== FALSE)
 			{
@@ -329,6 +329,10 @@ class Debug_Toolbar_Core {
 	{
 		// Don't auto render toolbar for ajax requests
 		if (request::is_ajax())
+			return FALSE;
+		
+		// Don't auto render the toolbar when using CLI
+		if (PHP_SAPI == 'cli')
 			return FALSE;
 		
 		// Don't auto render toolbar if $_GET['debug'] = 'false'
