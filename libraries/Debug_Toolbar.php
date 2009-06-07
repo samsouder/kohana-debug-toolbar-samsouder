@@ -56,7 +56,7 @@ class Debug_Toolbar_Core {
 	 * @param bool print rendered output
 	 * @return string debug toolbar rendered output
 	 */
-	public static function render($print = false) 
+	public static function render($print = FALSE) 
 	{
 		Benchmark::start(self::$benchmark_name);
 		
@@ -264,7 +264,7 @@ class Debug_Toolbar_Core {
 				{
 					$value = get_class($value).' [object]';
 				}
-					
+				
 				$table[] = array($key, $value);
 			}
 			
